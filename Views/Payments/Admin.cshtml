@@ -1,0 +1,156 @@
+@model IEnumerable<ParkMate.ViewModels.PaymentHistoryViewModel>
+
+@{
+    ViewData["Title"] = "Admin Payments";
+    Layout = "~/Views/Shared/_AdminDashboardLayout.cshtml";
+
+    var paymentList = Model.ToList();
+    var paymentIds = paymentList
+        .Select(p => p.PaymentId)
+        .Distinct()
+        .OrderBy(id => id)
+        .ToList();
+    var bookingIds = paymentList
+        .Select(p => p.BookingId)
+        .Distinct()
+        .OrderBy(id => id)
+        .ToList();
+}
+
+<div class="admin-page">
+    <div class="admin-container">
+
+        <div class="admin-header">
+            <div class="admin-heading">
+                <h1>Payments</h1>
+                <p>Track all customer payments.</p>
+            </div>
+        </div>
+
+        <div class="dashboard-cards" style="margin-bottom: 25px;">
+            <div class="dashboard-card orange">
+                <p>Total Paid Amount</p>
+                <h2>₹@ViewBag.TotalRevenue.ToString("0.00")</h2>
+            </div>
+        </div>
+
+        <div class="pm-card" style="margin-bottom: 25px;">
+            <div class="pm-card-header">
+                <h2>Payment Filters</h2>
+            </div>
+
+            <div class="pm-card-body">
+                <form asp-action="Admin" method="get">
+                    <div class="pm-details-grid">
+                        <div class="pm-form-group">
+                            <label>From Date</label>
+                            <input type="date"
+                                   name="fromDate"
+                                   value="@ViewBag.FromDate"
+                                   class="pm-input" />
+                        </div>
+
+                        <div class="pm-form-group">
+                            <label>To Date</label>
+                            <input type="date"
+                                   name="toDate"
+                                   value="@ViewBag.ToDate"
+                                   class="pm-input" />
+                        </div>
+                    </div>
+
+                    <div class="pm-form-actions">
+                        <button type="submit" class="pm-btn pm-btn-primary">
+                            Filter
+                        </button>
+
+                        <a asp-action="Admin"
+                           class="pm-btn pm-btn-secondary">
+                            Reset
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="pm-card">
+            <div class="pm-card-header">
+                <h2>Customer Payments</h2>
+            </div>
+
+            <div class="pm-card-body">
+                @if (!paymentList.Any())
+                {
+                    <div class="pm-empty">
+                        <div class="pm-empty-icon">💳</div>
+                        <h3>No payment records found</h3>
+                        <p>No payments match the selected date range.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="pm-table-wrapper">
+                        <table class="pm-table">
+                            <thead>
+                                <tr>
+                                    <th>Payment ID</th>
+                                    <th>Booking ID</th>
+                                    <th>Customer</th>
+                                    <th>Amount</th>
+                                    <th>Mode</th>
+                                    <th>Status</th>
+                                    <th>Receipt</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var payment in paymentList)
+                                {
+                                    int paymentDisplayId = paymentIds.IndexOf(payment.PaymentId) + 1;
+
+                                    <tr>
+                                        <td>#P @paymentDisplayId</td>
+                                        <td>#B@(bookingIds.IndexOf(payment.BookingId) + 1)</td>
+                                        <td>
+                                            <strong>@(payment.CustomerName ?? "N/A")</strong>
+                                            <br />
+                                            <small>@(payment.CustomerEmail ?? "")</small>
+                                        </td>
+                                        <td>₹@payment.Amount.ToString("0.00")</td>
+                                        <td>@payment.Mode.ToUpperInvariant()</td>
+                                        <td>
+                                            <span class="pm-badge @(payment.Status.Equals("paid", StringComparison.OrdinalIgnoreCase) ? "pm-badge-paid" : "pm-badge-failed")">
+                                                @payment.Status
+                                            </span>
+                                        </td>
+                                        <td>
+                                            @if (!string.IsNullOrWhiteSpace(payment.ReceiptNumber))
+                                            {
+                                                <div style="display:flex;flex-direction:column;gap:8px;min-width:150px;">
+                                                    <span>@payment.ReceiptNumber</span>
+                                                    <a asp-controller="Receipts"
+                                                       asp-action="DownloadPayment"
+                                                       asp-route-id="@payment.PaymentId"
+                                                       class="pm-btn pm-btn-secondary">
+                                                        Download PDF
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @:—
+                                            }
+                                        </td>
+                                        <td>@payment.PayDate.ToString("dd MMM yyyy, hh:mm tt")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

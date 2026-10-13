@@ -1,0 +1,117 @@
+@{
+    var controller =
+        ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+
+    var action =
+        ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ParkMate</title>
+
+    <link rel="stylesheet"
+          href="~/css/admin-shell.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/admin-pages.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/responsive.css"
+          asp-append-version="true" />
+</head>
+<body>
+
+<div class="admin-shell-page">
+
+    <header class="admin-topbar">
+
+        <div class="admin-brand">
+            🚗 ParkMate
+        </div>
+
+        <div class="admin-user-area">
+            <span class="admin-user-label">
+                Admin
+            </span>
+
+            <a asp-controller="Auth"
+               asp-action="Logout"
+               class="admin-logout">
+                Logout
+            </a>
+        </div>
+
+    </header>
+
+    <div class="admin-body">
+
+        <aside class="admin-sidebar-shell">
+            <nav class="admin-shell-nav">
+
+                <a asp-controller="Dashboard"
+                   asp-action="Admin"
+                   class="@(controller == "Dashboard" && action == "Admin" ? "active" : "")">
+                    Dashboard
+                </a>
+
+                <a asp-controller="Bookings"
+                   asp-action="Index"
+                   class="@(controller == "Bookings" && action == "Index" ? "active" : "")">
+                    Bookings
+                </a>
+
+                <a asp-controller="Slots"
+                   asp-action="Index"
+                   class="@(controller == "Slots" ? "active" : "")">
+                    Slots
+                </a>
+
+                <a asp-controller="Pricing"
+                   asp-action="Index"
+                   class="@(controller == "Pricing" ? "active" : "")">
+                    Pricing
+                </a>
+
+                <a asp-controller="Feedback"
+                   asp-action="Admin"
+                   class="@(controller == "Feedback" ? "active" : "")">
+                    Feedback
+                </a>
+
+                <a asp-controller="Payments"
+                   asp-action="Admin"
+                   class="@(controller == "Payments" ? "active" : "")">
+                    Payments
+                </a>
+
+                <a asp-controller="Refunds"
+                   asp-action="Index"
+                   class="@(controller == "Refunds" ? "active" : "")">
+                    Refunds
+                </a>
+
+                <a asp-controller="Users"
+                   asp-action="Index"
+                   class="@(controller == "Users" ? "active" : "")">
+                    Users
+                </a>
+
+            </nav>
+        </aside>
+
+        <main class="admin-shell-main">
+            @RenderBody()
+        </main>
+
+    </div>
+</div>
+
+@await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

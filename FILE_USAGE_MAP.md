@@ -1,0 +1,28 @@
+# ParkMate source file map
+
+- `Program.cs`: dependency injection, session, SQL Server DbContext, middleware and endpoint routing.
+- `Controllers/`: MVC actions for authentication, booking, dashboard, feedback, payments, pricing, profile, receipts, refunds, slots and users.
+- `Controllers/Api/`: REST API endpoints for bookings, payments, pricing and slots.
+- `Models/`: EF Core entities mapped to SQL Server tables.
+- `ViewModels/`: typed request/form models used by Razor views and API actions.
+- `Data/ParkMateDbContext.cs`: DbSets, table names, primary/foreign keys and unique indexes.
+- `Migrations/`: versioned EF Core database schema migration and model snapshot.
+- `Filters/`: admin/API access filters.
+- `Middleware/GlobalExceptionMiddleware.cs`: centralized exception handling.
+- `Services/`: email OTP, OTP workflow, PDF receipt generation and receipt access helpers.
+- `Views/`: Razor UI, including user/admin dashboards and booking/payment pages.
+- `wwwroot/css/index.css`: public/home page styling; loaded by `Views/Shared/_Layout.cshtml`.
+- `wwwroot/css/admin-shell.css`: admin shell/sidebar layout; loaded by `_AdminDashboardLayout.cshtml`.
+- `wwwroot/css/admin-pages.css`: shared admin/user tables and page components.
+- `wwwroot/css/user_dashboard.css`: user dashboard/navigation layout.
+- `wwwroot/css/responsive.css`: final responsive overrides loaded after main styles in all shared layouts.
+- `wwwroot/css/login1.css`, `signup.css`, `otp.css`, `set_password.css`: authentication page styles.
+- `wwwroot/css/payment_success.css`: payment-success page styles.
+- `wwwroot/css/profile.css`: profile page styles.
+- `wwwroot/css/user_feedback.css`: feedback page styles.
+- `wwwroot/js/index.js`: global page JavaScript, loaded by `_Layout.cshtml`.
+- `wwwroot/js/login.js`, `signup.js`, `otp.js`, `set_password.js`: authentication-page JavaScript.
+- `wwwroot/js/api-integration.js`: slot/API-related client integration.
+- `wwwroot/images/`: static image assets used by the pages.
+- `appsettings.json`: base non-secret configuration (the local SQL Server connection must be adjusted by each developer).
+- `appsettings.Development.example.json`: safe template; copy it to the ignored local `appsettings.Development.json` and add secret values there.

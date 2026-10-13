@@ -1,0 +1,107 @@
+@model ParkMate.ViewModels.OtpViewModel
+
+@{
+    ViewData["Title"] = "Verify OTP";
+    string purposeText = Model.Purpose switch
+    {
+        "register" => "Email Verification",
+        "login" => "Login Verification",
+        "reset" => "Password Reset Verification",
+        _ => "OTP Verification"
+    };
+}
+
+<link rel="stylesheet" href="~/css/otp.css" asp-append-version="true" />
+<script src="~/js/otp.js" asp-append-version="true" defer></script>
+
+<div class="otp-page">
+    <div class="otp-card">
+
+        <div class="otp-logo">🚗 ParkMate</div>
+
+        <h1>@purposeText</h1>
+
+        @if (TempData["OtpMessage"] != null)
+        {
+            <div class="otp-success-box">
+                @TempData["OtpMessage"]
+            </div>
+        }
+
+        @if (TempData["OtpError"] != null)
+        {
+            <div class="otp-error-box">
+                @TempData["OtpError"]
+            </div>
+        }
+
+        <p>
+            OTP sent to <strong>@Model.Email</strong>.
+        </p>
+
+        <form asp-controller="Otp"
+              asp-action="Verify"
+              method="post"
+              id="otpForm">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl" />
+
+            <input type="text"
+                   name="Otp"
+                   class="otp-input"
+                   placeholder="Enter 6-digit OTP"
+                   maxlength="6"
+                   inputmode="numeric"
+                   autocomplete="one-time-code"
+                   autofocus />
+
+            <span asp-validation-for="Otp"
+                  class="otp-error"></span>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="otp-error-box">
+                    @foreach (var error in ViewData.ModelState.Values
+                        .SelectMany(v => v.Errors))
+                    {
+                        if (!string.IsNullOrWhiteSpace(error.ErrorMessage))
+                        {
+                            <div>@error.ErrorMessage</div>
+                        }
+                    }
+                </div>
+            }
+
+            <button type="submit" class="otp-button">
+                VERIFY OTP
+            </button>
+        </form>
+
+        <form asp-controller="Otp"
+              asp-action="Resend"
+              method="post"
+              class="otp-resend-form">
+
+            @Html.AntiForgeryToken()
+
+            <button type="submit" class="otp-resend-button">
+                Resend OTP
+            </button>
+        </form>
+
+        <a asp-controller="Auth"
+           asp-action="Login"
+           class="otp-back-link">
+            ← Back to Login
+        </a>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

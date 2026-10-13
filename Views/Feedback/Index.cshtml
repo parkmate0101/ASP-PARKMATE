@@ -1,0 +1,85 @@
+@model IEnumerable<ParkMate.Models.Booking>
+
+@{
+    ViewData["Title"] = "Feedback";
+    Layout = "~/Views/Shared/_UserDashboardLayout.cshtml";
+
+    var bookingList = Model.ToList();
+    var bookingIds = bookingList
+        .Select(b => b.BId)
+        .Distinct()
+        .OrderBy(id => id)
+        .ToList();
+}
+
+<link rel="stylesheet" href="~/css/user_feedback.css" asp-append-version="true" />
+
+<div class="dashboard-page-content">
+
+    <h1>Give Feedback</h1>
+
+    <p>Share your experience with ParkMate.</p>
+
+    @if (TempData["FeedbackSuccess"] != null)
+    {
+        <div class="feedback-success">@TempData["FeedbackSuccess"]</div>
+    }
+
+    @if (TempData["FeedbackError"] != null)
+    {
+        <div class="feedback-error">@TempData["FeedbackError"]</div>
+    }
+
+    @if (!bookingList.Any())
+    {
+        <div class="feedback-empty">
+            <h3>No Completed Bookings</h3>
+            <p>You have no completed bookings available for feedback.</p>
+        </div>
+    }
+    else
+    {
+        <div class="feedback-card">
+            <form asp-action="Submit" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="feedback-group">
+                    <label>Select Booking</label>
+                    <select name="bookingId" required>
+                        <option value="">-- Select Booking --</option>
+                        @foreach (var booking in bookingList)
+                        {
+                            int displayId = bookingIds.IndexOf(booking.BId) + 1;
+                            <option value="@booking.BId">
+                                #B @displayId - @booking.StartTime.ToString("dd MMM yyyy")
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <div class="feedback-group">
+                    <label>Rating</label>
+                    <select name="rating" required>
+                        <option value="">-- Select Rating --</option>
+                        <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                        <option value="4">⭐⭐⭐⭐ Very Good</option>
+                        <option value="3">⭐⭐⭐ Good</option>
+                        <option value="2">⭐⭐ Fair</option>
+                        <option value="1">⭐ Poor</option>
+                    </select>
+                </div>
+
+                <div class="feedback-group">
+                    <label>Comment</label>
+                    <textarea name="comment"
+                              placeholder="Write your experience..."
+                              required></textarea>
+                </div>
+
+                <button type="submit" class="feedback-button">
+                    Submit Feedback
+                </button>
+            </form>
+        </div>
+    }
+</div>

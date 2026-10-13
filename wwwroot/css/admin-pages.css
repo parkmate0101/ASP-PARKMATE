@@ -1,0 +1,1045 @@
+/* =========================================================
+   PARKMATE CRUD / ADMIN UI
+   Used by:
+   Slots
+   Pricing
+   Users
+   Bookings
+   ========================================================= */
+
+.admin-page {
+    min-height: 100vh;
+    background: #f6f7fb;
+    padding: 45px 5%;
+    color: #1f2937;
+}
+
+.admin-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.admin-heading h1 {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 750;
+    color: #1f2937;
+}
+
+.admin-heading p {
+    margin: 7px 0 0;
+    color: #6b7280;
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.pm-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: none;
+    border-radius: 10px;
+    padding: 11px 18px;
+    font-size: 14px;
+    font-weight: 650;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+    .pm-btn:hover {
+        transform: translateY(-1px);
+        text-decoration: none;
+    }
+
+.pm-btn-primary {
+    background: #5149f6;
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(81, 73, 246, 0.20);
+}
+
+    .pm-btn-primary:hover {
+        background: #4038dc;
+        color: #ffffff;
+    }
+
+.pm-btn-secondary {
+    background: #eef0ff;
+    color: #5149f6;
+}
+
+    .pm-btn-secondary:hover {
+        background: #e2e5ff;
+        color: #4038dc;
+    }
+
+.pm-btn-warning {
+    background: #fff4d6;
+    color: #9a6700;
+}
+
+    .pm-btn-warning:hover {
+        background: #ffe9ad;
+        color: #795200;
+    }
+
+.pm-btn-danger {
+    background: #ffe7e7;
+    color: #c62828;
+}
+
+    .pm-btn-danger:hover {
+        background: #ffd4d4;
+        color: #a51f1f;
+    }
+
+.pm-btn-success {
+    background: #e7f8ef;
+    color: #16794c;
+}
+
+    .pm-btn-success:hover {
+        background: #d5f2e3;
+        color: #11633e;
+    }
+
+.pm-btn-dark {
+    background: #1f2937;
+    color: #ffffff;
+}
+
+    .pm-btn-dark:hover {
+        background: #111827;
+        color: #ffffff;
+    }
+
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.pm-card {
+    background: #ffffff;
+    border: 1px solid #e7e9f0;
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(31, 41, 55, 0.07);
+}
+
+.pm-card-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #eceef4;
+}
+
+    .pm-card-header h2 {
+        margin: 0;
+        font-size: 19px;
+        color: #1f2937;
+    }
+
+.pm-card-body {
+    padding: 24px;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.pm-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.pm-table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+    .pm-table th {
+        padding: 15px 16px;
+        background: #f7f8fc;
+        color: #4b5563;
+        font-size: 13px;
+        font-weight: 750;
+        text-align: left;
+        white-space: nowrap;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+        .pm-table th:first-child {
+            border-top-left-radius: 12px;
+        }
+
+        .pm-table th:last-child {
+            border-top-right-radius: 12px;
+        }
+
+    .pm-table td {
+        padding: 15px 16px;
+        color: #374151;
+        font-size: 14px;
+        border-bottom: 1px solid #eef0f4;
+        vertical-align: middle;
+    }
+
+    .pm-table tbody tr {
+        transition: background 0.15s ease;
+    }
+
+        .pm-table tbody tr:hover {
+            background: #fafaff;
+        }
+
+        .pm-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.pm-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+    .pm-actions form {
+        margin: 0;
+    }
+
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+
+.pm-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.pm-badge-available {
+    background: #e7f8ef;
+    color: #16794c;
+}
+
+.pm-badge-blocked {
+    background: #ffe7e7;
+    color: #c62828;
+}
+
+.pm-badge-active {
+    background: #e7efff;
+    color: #3156c9;
+}
+
+.pm-badge-cancelled {
+    background: #f0f1f5;
+    color: #6b7280;
+}
+
+.pm-badge-paid {
+    background: #e7f8ef;
+    color: #16794c;
+}
+
+.pm-badge-failed {
+    background: #ffe7e7;
+    color: #c62828;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.pm-empty {
+    text-align: center;
+    padding: 50px 20px !important;
+    color: #6b7280 !important;
+}
+
+.pm-empty-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.pm-empty h3 {
+    margin: 0 0 7px;
+    color: #374151;
+}
+
+.pm-empty p {
+    margin: 0;
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.pm-form-card {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.pm-form-group {
+    margin-bottom: 20px;
+}
+
+    .pm-form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #374151;
+        font-size: 14px;
+        font-weight: 650;
+    }
+
+.pm-input,
+.pm-select {
+    width: 100%;
+    min-height: 46px;
+    padding: 11px 13px;
+    border: 1px solid #d9dce5;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #1f2937;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+    .pm-input:focus,
+    .pm-select:focus {
+        border-color: #5149f6;
+        box-shadow: 0 0 0 3px rgba(81, 73, 246, 0.10);
+    }
+
+.pm-validation {
+    display: block;
+    margin-top: 5px;
+    color: #c62828;
+    font-size: 13px;
+}
+
+.pm-summary {
+    margin-bottom: 20px;
+    padding: 13px 15px;
+    border-radius: 10px;
+    background: #fff1f1;
+    color: #b42318;
+    border: 1px solid #ffd4d4;
+}
+
+.pm-form-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+
+/* =========================================================
+   SLOT TYPE
+   ========================================================= */
+
+.pm-slot-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 52px;
+    padding: 7px 10px;
+    border-radius: 9px;
+    background: #eef0ff;
+    color: #5149f6;
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   DELETE CONFIRMATION
+   ========================================================= */
+
+.pm-danger-card {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 35px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #ffd7d7;
+    border-radius: 18px;
+    box-shadow: 0 15px 40px rgba(198, 40, 40, 0.08);
+}
+
+.pm-danger-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 18px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #ffe7e7;
+    color: #c62828;
+    font-size: 28px;
+}
+
+.pm-danger-card h1 {
+    margin-bottom: 10px;
+    color: #1f2937;
+}
+
+.pm-danger-card p {
+    color: #6b7280;
+    margin-bottom: 8px;
+}
+
+.pm-danger-details {
+    margin: 25px 0;
+    padding: 18px;
+    border-radius: 12px;
+    background: #f8f9fc;
+    text-align: left;
+}
+
+    .pm-danger-details p {
+        margin: 7px 0;
+    }
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.pm-search {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+    .pm-search .pm-input {
+        flex: 1;
+        min-width: 250px;
+    }
+
+
+/* =========================================================
+   STAT / INFO CARDS
+   ========================================================= */
+
+.pm-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.pm-mini-card {
+    padding: 18px;
+    background: #ffffff;
+    border: 1px solid #e7e9f0;
+    border-radius: 14px;
+}
+
+    .pm-mini-card span {
+        display: block;
+        color: #6b7280;
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+
+    .pm-mini-card strong {
+        font-size: 22px;
+        color: #1f2937;
+    }
+
+
+/* =========================================================
+   DETAILS
+   ========================================================= */
+
+.pm-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.pm-detail-item {
+    padding: 16px;
+    background: #f8f9fc;
+    border-radius: 12px;
+}
+
+.pm-detail-label {
+    display: block;
+    margin-bottom: 4px;
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.pm-detail-value {
+    color: #1f2937;
+    font-size: 15px;
+    font-weight: 650;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .admin-page {
+        padding: 30px 20px;
+    }
+
+    .admin-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .pm-mini-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pm-details-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .admin-page {
+        padding: 22px 14px;
+    }
+
+    .admin-heading h1 {
+        font-size: 28px;
+    }
+
+    .pm-card-body {
+        padding: 17px;
+    }
+
+    .pm-form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+        .pm-form-actions .pm-btn {
+            width: 100%;
+        }
+
+    .pm-search {
+        flex-direction: column;
+    }
+
+        .pm-search .pm-input {
+            min-width: 100%;
+        }
+}
+/* =========================================================
+   PARKING SLOT GRID
+   ========================================================= */
+
+.pm-slot-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(90px, 1fr));
+    gap: 16px;
+    margin: 10px 0 25px;
+}
+
+.pm-parking-slot {
+    min-height: 105px;
+    border-radius: 12px;
+    border: 2px solid #d7dce2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 14px 10px;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.pm-parking-slot-available {
+    background: #f8fff9;
+    border-color: #63b879;
+    color: #1f6b35;
+    cursor: pointer;
+}
+
+    .pm-parking-slot-available:hover {
+        transform: translateY(-2px);
+        border-color: #2f8f46;
+        box-shadow: 0 5px 14px rgba(0, 0, 0, 0.10);
+    }
+
+.pm-parking-slot-booked {
+    background: #f1f1f1;
+    border-color: #c7c7c7;
+    color: #777;
+    cursor: not-allowed;
+    opacity: 0.85;
+}
+
+.pm-parking-slot-number {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.pm-parking-slot-status {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.pm-parking-slot-time {
+    font-size: 11px;
+}
+
+.pm-slot-legend {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.pm-slot-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.pm-slot-legend-box {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 1px solid #aaa;
+    display: inline-block;
+}
+
+.pm-slot-legend-available {
+    background: #f8fff9;
+    border-color: #63b879;
+}
+
+.pm-slot-legend-booked {
+    background: #f1f1f1;
+    border-color: #c7c7c7;
+}
+
+
+/* =========================================================
+   RESPONSIVE PARKING GRID
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .pm-slot-grid {
+        grid-template-columns: repeat(4, minmax(80px, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+
+    .pm-slot-grid {
+        grid-template-columns: repeat(3, minmax(75px, 1fr));
+        gap: 10px;
+    }
+
+    .pm-parking-slot {
+        min-height: 90px;
+    }
+
+    .pm-parking-slot-number {
+        font-size: 18px;
+    }
+}
+/* =========================================================
+   REFUND TABLE - ACTION COLUMN
+   ========================================================= */
+
+.pm-table th:last-child,
+.pm-table td:last-child {
+    min-width: 175px;
+    width: 175px;
+    white-space: nowrap;
+    position: sticky;
+    right: 0;
+    z-index: 2;
+}
+
+/* Header of sticky action column */
+.pm-table th:last-child {
+    background: #f7f8fc;
+    box-shadow: -6px 0 12px rgba(31, 41, 55, 0.06);
+}
+
+/* Body of sticky action column */
+.pm-table td:last-child {
+    background: #ffffff;
+    box-shadow: -6px 0 12px rgba(31, 41, 55, 0.05);
+}
+
+    /* Keep button properly aligned */
+    .pm-table td:last-child form {
+        display: inline-flex;
+        align-items: center;
+        margin: 0;
+    }
+
+    /* Keep action button on one line */
+    .pm-table td:last-child .pm-btn {
+        white-space: nowrap;
+        margin: 0;
+    }
+
+    /* Receipt badge should stay inside action column */
+    .pm-table td:last-child .pm-badge {
+        white-space: nowrap;
+    }
+
+/* =========================================================
+   ALERTS / NOTICES
+========================================================= */
+
+.pm-alert {
+    margin-bottom: 20px;
+    padding: 13px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.pm-alert-success {
+    background: #e7f8ef;
+    color: #16794c;
+}
+
+.pm-alert-error {
+    background: #ffe7e7;
+    color: #c62828;
+}
+
+/* Keep the Action column reachable on small screens. */
+.pm-table th:last-child,
+.pm-table td:last-child {
+    min-width: 165px;
+    width: 165px;
+    white-space: nowrap;
+    position: sticky;
+    right: 0;
+    z-index: 3;
+    background: #ffffff;
+    box-shadow: -7px 0 14px rgba(31, 41, 55, 0.06);
+}
+
+.pm-table th:last-child {
+    background: #f7f8fc;
+}
+
+.pm-table tbody tr:hover td:last-child {
+    background: #fafaff;
+}
+
+/* =========================================================
+   FINAL RESPONSIVE OVERRIDES
+   Added after the existing rules so the final values win.
+   Wide tables remain horizontally scrollable instead of
+   becoming unreadable on small laptop/mobile screens.
+   ========================================================= */
+
+.pm-table-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+}
+
+.pm-table {
+    width: 100%;
+}
+
+/* Refund/action column stays visible while the table scrolls. */
+.pm-table th:last-child,
+.pm-table td:last-child {
+    position: sticky;
+    right: 0;
+    z-index: 3;
+    white-space: nowrap;
+    min-width: 155px;
+    width: 155px;
+}
+
+.pm-table th:last-child {
+    background: #f7f8fc;
+    box-shadow: -6px 0 12px rgba(31, 41, 55, 0.06);
+}
+
+.pm-table td:last-child {
+    background: #ffffff;
+    box-shadow: -6px 0 12px rgba(31, 41, 55, 0.05);
+}
+
+.pm-table tbody tr:hover td:last-child {
+    background: #fafaff;
+}
+
+@media (max-width: 900px) {
+
+    .admin-page {
+        padding: 30px 20px;
+    }
+
+    .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-heading h1 {
+        font-size: 30px;
+    }
+
+    .pm-mini-grid,
+    .pm-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pm-card-header {
+        padding: 18px 20px;
+    }
+
+    .pm-card-body {
+        padding: 20px;
+    }
+
+    .pm-slot-grid {
+        grid-template-columns: repeat(4, minmax(80px, 1fr));
+    }
+
+    .pm-table-wrapper {
+        max-width: 100%;
+    }
+
+    .pm-table {
+        min-width: 700px;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .admin-page {
+        padding: 24px 15px;
+    }
+
+    .admin-heading h1 {
+        font-size: 27px;
+    }
+
+    .admin-heading p {
+        font-size: 14px;
+    }
+
+    .pm-card {
+        border-radius: 14px;
+    }
+
+    .pm-card-header {
+        padding: 16px;
+    }
+
+    .pm-card-body {
+        padding: 16px;
+    }
+
+    .pm-actions {
+        width: 100%;
+    }
+
+    .pm-actions .pm-btn {
+        flex: 1;
+    }
+
+    .pm-search {
+        flex-direction: column;
+    }
+
+    .pm-search .pm-input {
+        min-width: 100%;
+    }
+
+    .pm-form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .pm-form-actions .pm-btn {
+        width: 100%;
+    }
+
+    .pm-table {
+        min-width: 650px;
+    }
+
+    .pm-table th,
+    .pm-table td {
+        padding: 12px;
+        font-size: 13px;
+    }
+
+    .pm-table th:last-child,
+    .pm-table td:last-child {
+        min-width: 145px;
+        width: 145px;
+    }
+
+    .pm-slot-grid {
+        grid-template-columns: repeat(3, minmax(75px, 1fr));
+        gap: 10px;
+    }
+
+    .pm-parking-slot {
+        min-height: 90px;
+        padding: 10px 7px;
+    }
+
+    .pm-parking-slot-number {
+        font-size: 18px;
+    }
+
+    .pm-parking-slot-status {
+        font-size: 12px;
+    }
+
+    .pm-parking-slot-time {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .admin-page {
+        padding: 18px 10px;
+    }
+
+    .admin-heading h1 {
+        font-size: 24px;
+    }
+
+    .admin-heading p {
+        font-size: 13px;
+    }
+
+    .pm-card {
+        border-radius: 12px;
+    }
+
+    .pm-card-header {
+        padding: 14px;
+    }
+
+    .pm-card-header h2 {
+        font-size: 17px;
+    }
+
+    .pm-card-body {
+        padding: 14px;
+    }
+
+    .pm-btn {
+        min-height: 44px;
+    }
+
+    .pm-actions {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .pm-actions .pm-btn {
+        width: 100%;
+    }
+
+    .pm-table {
+        min-width: 620px;
+    }
+
+    .pm-table th,
+    .pm-table td {
+        padding: 10px 9px;
+        font-size: 12px;
+    }
+
+    .pm-table th:last-child,
+    .pm-table td:last-child {
+        min-width: 135px;
+        width: 135px;
+    }
+
+    .pm-search {
+        width: 100%;
+    }
+
+    .pm-search .pm-input,
+    .pm-search .pm-btn {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .pm-mini-card {
+        padding: 15px;
+    }
+
+    .pm-mini-card strong {
+        font-size: 20px;
+    }
+
+    .pm-danger-card {
+        margin: 25px auto;
+        padding: 24px 16px;
+    }
+
+    .pm-slot-grid {
+        grid-template-columns: repeat(2, minmax(80px, 1fr));
+        gap: 9px;
+    }
+
+    .pm-slot-legend {
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    .pm-slot-legend-item {
+        font-size: 12px;
+    }
+}

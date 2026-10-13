@@ -1,0 +1,197 @@
+﻿@model ParkMate.ViewModels.BookingDraftViewModel
+
+@{
+    ViewData["Title"] = "Booking Confirmation";
+}
+
+<div class="admin-page">
+
+    <div class="admin-container">
+
+        <div class="admin-header">
+
+            <div class="admin-heading">
+
+                <h1>Booking Summary</h1>
+
+                <p>
+                    Please review your booking before payment.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="pm-card">
+
+            <div class="pm-card-header">
+
+                <h2>Booking Confirmation</h2>
+
+            </div>
+
+
+            <div class="pm-card-body">
+
+                <div class="pm-details-grid">
+
+
+                    <div class="pm-detail-item">
+
+                        <span class="pm-detail-label">
+                            Parking Slot
+                        </span>
+
+                        <span class="pm-detail-value">
+                            @Model.SlotNumber
+                        </span>
+
+                    </div>
+
+
+                    <div class="pm-detail-item">
+
+                        <span class="pm-detail-label">
+                            Booking Type
+                        </span>
+
+                        <span class="pm-detail-value">
+                            @Model.BookingType
+                        </span>
+
+                    </div>
+
+
+                    <div class="pm-detail-item">
+
+                        <span class="pm-detail-label">
+                            Start Time
+                        </span>
+
+                        <span class="pm-detail-value">
+                            @Model.StartTime.ToString(
+                                "dd MMM yyyy, hh:mm tt")
+                        </span>
+
+                    </div>
+
+
+                    <div class="pm-detail-item">
+
+                        <span class="pm-detail-label">
+                            End Time
+                        </span>
+
+                        <span class="pm-detail-value">
+                            @Model.EndTime.ToString(
+                                "dd MMM yyyy, hh:mm tt")
+                        </span>
+
+                    </div>
+
+
+                    <div class="pm-detail-item">
+
+                        <span class="pm-detail-label">
+                            Vehicle
+                        </span>
+
+                        <span class="pm-detail-value">
+                            @Model.VehicleNumber
+                        </span>
+
+                    </div>
+
+
+                    <div class="pm-detail-item">
+
+                        <span class="pm-detail-label">
+                            Vehicle Type
+                        </span>
+
+                        <span class="pm-detail-value">
+                            @Model.VehicleType
+                        </span>
+
+                    </div>
+
+
+                    <div class="pm-detail-item">
+
+                        <span class="pm-detail-label">
+                            Email
+                        </span>
+
+                        <span class="pm-detail-value">
+                            @Model.Email
+                        </span>
+
+                    </div>
+
+
+                    <div class="pm-detail-item">
+
+                        <span class="pm-detail-label">
+                            Mobile
+                        </span>
+
+                        <span class="pm-detail-value">
+                            @Model.Mobile
+                        </span>
+
+                    </div>
+
+
+                    <div class="pm-detail-item">
+
+                        <span class="pm-detail-label">
+                            Total Amount
+                        </span>
+
+                        <span class="pm-detail-value">
+
+                            <strong>
+                                ₹@Model.TotalAmount.ToString("0.00")
+                            </strong>
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="pm-form-actions">
+
+                    <form asp-action="Confirmation"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden"
+                               name="confirmBooking"
+                               value="yes" />
+
+                        <button type="submit"
+                                class="pm-btn pm-btn-primary">
+                            Proceed to Payment
+                        </button>
+
+                    </form>
+
+
+                    <a asp-action="Contact"
+                       class="pm-btn pm-btn-secondary">
+                        Back
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

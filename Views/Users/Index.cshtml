@@ -1,0 +1,123 @@
+﻿@model IEnumerable<ParkMate.Models.User>
+
+@{
+    Layout = "~/Views/Shared/_AdminDashboardLayout.cshtml";
+    ViewData["Title"] = "Users";
+
+    var userList = Model.ToList();
+    var userIds = userList
+        .Select(u => u.UId)
+        .Distinct()
+        .OrderBy(id => id)
+        .ToList();
+}
+
+<div class="admin-page">
+    <div class="admin-container">
+
+        <div class="admin-header">
+            <div class="admin-heading">
+                <h1>Users</h1>
+                <p>View and manage registered ParkMate users.</p>
+            </div>
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="pm-btn pm-btn-dark">
+                ← Home
+            </a>
+        </div>
+
+        <div class="pm-card" style="margin-bottom: 25px;">
+            <div class="pm-card-body">
+                <form asp-action="Index" method="get" class="pm-search">
+                    <input type="text"
+                           name="search"
+                           value="@Context.Request.Query["search"]"
+                           class="pm-input"
+                           placeholder="Search by name, email or contact..." />
+
+                    <button type="submit" class="pm-btn pm-btn-primary">
+                        🔍 Search
+                    </button>
+
+                    <a asp-action="Index" class="pm-btn pm-btn-secondary">
+                        Clear
+                    </a>
+                </form>
+            </div>
+        </div>
+
+        <div class="pm-card">
+            <div class="pm-card-header">
+                <h2>Registered Users</h2>
+            </div>
+
+            <div class="pm-card-body">
+                @if (!userList.Any())
+                {
+                    <div class="pm-empty">
+                        <div class="pm-empty-icon">👤</div>
+                        <h3>No users found</h3>
+                        <p>No users match your search.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="pm-table-wrapper">
+                        <table class="pm-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Contact</th>
+                                    <th>Role</th>
+                                    <th>Verified</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var user in userList)
+                                {
+                                    int userDisplayId = userIds.IndexOf(user.UId) + 1;
+
+                                    <tr>
+                                        <td><strong>#U @userDisplayId</strong></td>
+                                        <td>@user.Name</td>
+                                        <td>@user.Email</td>
+                                        <td>@user.Contact</td>
+                                        <td>@(user.Role?.RoleName ?? "—")</td>
+                                        <td>
+                                            @if (user.IsVerified)
+                                            {
+                                                <span class="pm-badge pm-badge-available">Verified</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="pm-badge pm-badge-blocked">Not Verified</span>
+                                            }
+                                        </td>
+                                        <td>@user.CreatedAt.ToString("dd MMM yyyy")</td>
+                                        <td>
+                                            <div class="pm-actions">
+                                                <a asp-action="Details"
+                                                   asp-route-id="@user.UId"
+                                                   class="pm-btn pm-btn-secondary">
+                                                    View
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

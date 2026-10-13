@@ -1,0 +1,166 @@
+@model IEnumerable<ParkMate.Models.Booking>
+
+@{
+    Layout = "~/Views/Shared/_AdminDashboardLayout.cshtml";
+    ViewData["Title"] = "Bookings";
+
+    var bookingList = Model.ToList();
+    var bookingIds = bookingList
+        .Select(b => b.BId)
+        .Distinct()
+        .OrderBy(id => id)
+        .ToList();
+}
+
+<div class="admin-page">
+
+    <div class="admin-container">
+
+        <div class="admin-header">
+            <div class="admin-heading">
+                <h1>Bookings</h1>
+                <p>View and monitor all parking bookings.</p>
+            </div>
+
+            <div class="pm-actions">
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="pm-btn pm-btn-dark">
+                    Home
+                </a>
+            </div>
+        </div>
+
+        <div class="pm-card">
+            <div class="pm-card-header">
+                <h2>Booking Filters</h2>
+            </div>
+
+            <div class="pm-card-body">
+                <form asp-action="Index" method="get">
+                    <div class="pm-details-grid">
+                        <div class="pm-form-group">
+                            <label>From Date</label>
+                            <input type="date" name="fromDate" value="@ViewBag.FromDate" class="pm-input" />
+                        </div>
+
+                        <div class="pm-form-group">
+                            <label>To Date</label>
+                            <input type="date" name="toDate" value="@ViewBag.ToDate" class="pm-input" />
+                        </div>
+
+                        <div class="pm-form-group">
+                            <label>Parking Slot</label>
+                            <select name="slotId" class="pm-select">
+                                <option value="">All Slots</option>
+                                @foreach (var slot in ViewBag.Slots)
+                                {
+                                    if (ViewBag.SelectedSlotId == slot.SlotId)
+                                    {
+                                        <option value="@slot.SlotId" selected>@slot.SlotNum</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@slot.SlotId">@slot.SlotNum</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="pm-form-group">
+                            <label>Status</label>
+                            <select name="status" class="pm-select">
+                                <option value="">All Status</option>
+                                @foreach (var statusOption in new[] { "Active", "Completed", "Cancelled" })
+                                {
+                                    if (ViewBag.SelectedStatus == statusOption)
+                                    {
+                                        <option value="@statusOption" selected>@statusOption</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@statusOption">@statusOption</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="pm-form-actions">
+                        <button type="submit" class="pm-btn pm-btn-primary">Filter</button>
+                        <a asp-action="Index" class="pm-btn pm-btn-secondary">Reset</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="pm-card">
+            <div class="pm-card-header">
+                <h2>All Bookings</h2>
+            </div>
+
+            <div class="pm-card-body">
+                @if (!bookingList.Any())
+                {
+                    <div class="pm-empty">
+                        <div class="pm-empty-icon">🅿️</div>
+                        <h3>No bookings found</h3>
+                        <p>No booking records match the selected filters.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="pm-table-wrapper">
+                        <table class="pm-table">
+                            <thead>
+                                <tr>
+                                    <th>Booking ID</th>
+                                    <th>User</th>
+                                    <th>Slot</th>
+                                    <th>Date &amp; Time</th>
+                                    <th>Duration</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var booking in bookingList)
+                                {
+                                    double duration = (booking.EndTime - booking.StartTime).TotalHours;
+                                    int hours = Math.Max(1, (int)Math.Ceiling(duration));
+                                    int bookingDisplayId = bookingIds.IndexOf(booking.BId) + 1;
+
+                                    <tr>
+                                        <td><strong>#B @bookingDisplayId</strong></td>
+                                        <td>@booking.User?.Name</td>
+                                        <td><span class="pm-slot-number">@booking.Slot?.SlotNum</span></td>
+                                        <td>
+                                            @booking.StartTime.ToString("dd MMM yyyy, hh:mm tt")
+                                            <br />
+                                            <small>to @booking.EndTime.ToString("dd MMM yyyy, hh:mm tt")</small>
+                                        </td>
+                                        <td>@hours hour(s)</td>
+                                        <td>
+                                            @if (booking.BStatus == "Active")
+                                            {
+                                                <span class="pm-badge pm-badge-active">Active</span>
+                                            }
+                                            else if (booking.BStatus == "Completed")
+                                            {
+                                                <span class="pm-badge pm-badge-available">Completed</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="pm-badge pm-badge-cancelled">Cancelled</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

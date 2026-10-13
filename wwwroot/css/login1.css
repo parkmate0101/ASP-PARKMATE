@@ -1,0 +1,225 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    background: #faf7ef;
+}
+
+.parkmate-auth-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    background: #faf7ef;
+}
+
+.auth-left {
+    width: 60%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.auth-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.auth-right {
+    width: 40%;
+    min-height: 100vh;
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #faf7ef;
+}
+
+.parkmate-logo {
+    width: 80%;
+    font-size: 32px;
+    font-weight: bold;
+    color: #000;
+    text-align: left;
+}
+
+.parkmate-logo span {
+    font-family: cursive;
+}
+
+.auth-title {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #b4463d;
+    text-align: center;
+}
+
+.auth-helper-text {
+    width: 80%;
+    margin: 5px auto 0;
+    color: #777;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.auth-right form {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.auth-input {
+    width: 100%;
+    padding: 15px 20px;
+    margin-bottom: 14px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    background: #d3e3eb;
+    color: #555;
+    font-size: 15px;
+}
+
+.auth-input::placeholder {
+    color: #777;
+}
+
+.auth-input:focus {
+    outline: 2px solid #d77b7b;
+}
+
+.auth-error {
+    color: red;
+    font-size: 13px;
+    margin-top: -8px;
+    margin-bottom: 8px;
+    display: block;
+    text-align: left;
+}
+
+.server-error {
+    width: 100%;
+    color: #c62828;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 0 15px 0;
+    line-height: 1.5;
+}
+
+.forgot-row {
+    width: 100%;
+    margin: 0 0 20px 10px;
+    text-align: left;
+}
+
+.forgot-link {
+    color: #0000ee;
+    font-size: 16px;
+}
+
+.auth-button {
+    width: 100%;
+    height: 64px;
+    min-height: 64px;
+    padding: 0;
+    margin: 0 0 12px 0;
+    border-radius: 32px;
+    border: none;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 64px;
+    background: #d77b7b;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+}
+
+.auth-button:hover {
+    opacity: 0.9;
+}
+
+.auth-link-button {
+    display: block;
+}
+
+.auth-question {
+    color: #999;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.success-message {
+    width: 80%;
+    color: #16803c;
+    text-align: center;
+    margin: 10px 0;
+    line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+    .parkmate-auth-container {
+        flex-direction: column;
+    }
+
+    .auth-left {
+        width: 100%;
+        height: 35vh;
+    }
+
+    .auth-right {
+        width: 100%;
+        min-height: 65vh;
+        padding: 40px 30px;
+    }
+}
+
+@media (max-width: 600px) {
+    .auth-title {
+        font-size: 30px;
+    }
+
+    .auth-helper-text,
+    .auth-right form,
+    .success-message {
+        width: 95%;
+    }
+
+    .parkmate-logo {
+        width: 95%;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-left {
+        display: none;
+    }
+
+    .auth-right {
+        width: 100%;
+        min-height: 100vh;
+        padding: 35px 20px;
+    }
+
+    .auth-title {
+        font-size: 28px;
+    }
+}

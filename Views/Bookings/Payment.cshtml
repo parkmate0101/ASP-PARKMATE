@@ -1,0 +1,129 @@
+﻿@model ParkMate.ViewModels.BookingDraftViewModel
+
+@{
+    ViewData["Title"] = "Payment";
+}
+
+<div class="admin-page">
+
+    <div class="admin-container">
+
+        <div class="admin-header">
+
+            <div class="admin-heading">
+
+                <h1>Payment</h1>
+
+                <p>
+                    Complete your simulated parking payment.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        @if (TempData["PaymentError"] != null)
+        {
+            <div class="pm-summary">
+
+                @TempData["PaymentError"]
+
+            </div>
+        }
+
+
+        <div class="pm-card">
+
+            <div class="pm-card-header">
+
+                <h2>Payment Summary</h2>
+
+            </div>
+
+
+            <div class="pm-card-body">
+
+                <div class="pm-summary">
+
+                    <strong>Parking Slot:</strong>
+                    @Model.SlotNumber
+
+                    <br />
+
+                    <strong>Vehicle:</strong>
+                    @Model.VehicleNumber
+
+                    <br />
+
+                    <strong>Booking Time:</strong>
+                    @Model.StartTime.ToString(
+                        "dd MMM yyyy, hh:mm tt")
+                    -
+                    @Model.EndTime.ToString(
+                        "dd MMM yyyy, hh:mm tt")
+
+                    <br />
+
+                    <strong>Total Amount:</strong>
+                    ₹@Model.TotalAmount.ToString("0.00")
+
+                </div>
+
+
+                <form asp-action="Payment"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+
+                    <div class="pm-form-group">
+
+                        <label>
+                            Payment Mode
+                        </label>
+
+                        <select name="paymentMode"
+                                class="pm-select">
+
+                            <option value="upi">
+                                UPI
+                            </option>
+
+                            <option value="card">
+                                Card
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="pm-form-actions">
+
+                        <button type="submit"
+                                class="pm-btn pm-btn-primary">
+
+                            Pay ₹@Model.TotalAmount.ToString("0.00")
+
+                        </button>
+
+
+                        <a asp-action="Confirmation"
+                           class="pm-btn pm-btn-secondary">
+
+                            Back
+
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

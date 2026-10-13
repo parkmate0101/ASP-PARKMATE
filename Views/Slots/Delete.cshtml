@@ -1,0 +1,81 @@
+@model ParkMate.Models.Slot
+
+@{
+    Layout = "~/Views/Shared/_AdminDashboardLayout.cshtml";
+    ViewData["Title"] = "Delete Slot";
+}
+
+<div class="admin-page">
+
+    <div class="admin-container">
+
+        <div class="pm-danger-card">
+
+            <div class="pm-danger-icon">
+                ⚠
+            </div>
+
+
+            <h1>
+                Delete Parking Slot?
+            </h1>
+
+
+            <p>
+                You are about to permanently delete this parking slot.
+            </p>
+
+
+            <div class="pm-danger-details">
+
+                <p>
+                    <strong>Slot Number:</strong>
+                    @Model.SlotNum
+                </p>
+
+                <p>
+                    <strong>Vehicle Type:</strong>
+                    @(Model.SlotType == "2_wheeler"
+                        ? "2 Wheeler"
+                        : "4 Wheeler")
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    @Model.SlotStatus
+                </p>
+
+            </div>
+
+
+            <form asp-action="Delete"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       asp-for="SlotId" />
+
+
+                <div class="pm-form-actions"
+                     style="justify-content:center;">
+
+                    <button type="submit"
+                            class="pm-btn pm-btn-danger">
+                        Yes, Delete Slot
+                    </button>
+
+                    <a asp-action="Index"
+                       class="pm-btn pm-btn-secondary">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

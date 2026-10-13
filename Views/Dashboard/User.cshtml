@@ -1,0 +1,59 @@
+@{
+    ViewData["Title"] = "User Dashboard";
+    Layout = "~/Views/Shared/_UserDashboardLayout.cshtml";
+}
+
+<div class="dashboard-page-content">
+
+    <h1>Welcome to Your Dashboard</h1>
+
+    <p>
+        Quick access to your parking activities.
+    </p>
+
+    <div class="box-container">
+
+        <div class="box">
+            <h3>Book Parking</h3>
+            <p>Reserve parking slots instantly.</p>
+            <a asp-controller="Bookings" asp-action="Create">
+                Book Now
+            </a>
+        </div>
+
+        <div class="box">
+            <h3>My Bookings</h3>
+            <p>
+                You have <strong>@ViewBag.BookingCount</strong> booking(s).
+            </p>
+            <a asp-controller="Bookings" asp-action="MyBookings">
+                View Bookings
+            </a>
+        </div>
+
+        <div class="box">
+            <h3>Profile</h3>
+            <p>Update your personal details.</p>
+            <a asp-controller="Profile" asp-action="Index">
+                Open Profile
+            </a>
+        </div>
+
+        <div class="box">
+            <h3>Feedback</h3>
+            <p>Share your experience after completing a booking.</p>
+            <a asp-controller="Feedback" asp-action="Index">
+                Give Feedback
+            </a>
+        </div>
+
+        <div class="box">
+            <h3>Payments</h3>
+            <p>View your payment and refund history.</p>
+            <a asp-controller="Payments" asp-action="Index">
+                View Payments
+            </a>
+        </div>
+
+    </div>
+</div>

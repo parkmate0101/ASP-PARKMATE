@@ -1,0 +1,156 @@
+@model ParkMate.Models.User
+
+@{
+    Layout = "~/Views/Shared/_AdminDashboardLayout.cshtml";
+    ViewData["Title"] = "User Details";
+}
+
+<div class="admin-page">
+
+    <div class="admin-container">
+
+        <div class="admin-header">
+
+            <div class="admin-heading">
+                <h1>User Details</h1>
+                <p>View registered user information.</p>
+            </div>
+
+            <a asp-action="Index"
+               class="pm-btn pm-btn-dark">
+                ← Back to Users
+            </a>
+
+        </div>
+
+
+        <div class="pm-card">
+
+            <div class="pm-card-header">
+                <h2>Account Information</h2>
+            </div>
+
+            <div class="pm-card-body">
+
+                <div class="pm-details-grid">
+
+                    <div class="pm-detail-item">
+                        <span class="pm-detail-label">
+                            User ID
+                        </span>
+
+                        <span class="pm-detail-value">
+                            #@Model.UId
+                        </span>
+                    </div>
+
+
+                    <div class="pm-detail-item">
+                        <span class="pm-detail-label">
+                            Name
+                        </span>
+
+                        <span class="pm-detail-value">
+                            @Model.Name
+                        </span>
+                    </div>
+
+
+                    <div class="pm-detail-item">
+                        <span class="pm-detail-label">
+                            Email
+                        </span>
+
+                        <span class="pm-detail-value">
+                            @Model.Email
+                        </span>
+                    </div>
+
+
+                    <div class="pm-detail-item">
+                        <span class="pm-detail-label">
+                            Contact
+                        </span>
+
+                        <span class="pm-detail-value">
+                            @Model.Contact
+                        </span>
+                    </div>
+
+
+                    <div class="pm-detail-item">
+                        <span class="pm-detail-label">
+                            Role
+                        </span>
+
+                        <span class="pm-detail-value">
+
+                            @if (Model.Role != null)
+                            {
+                                @Model.Role.RoleName
+                            }
+                            else
+                            {
+                                <span>—</span>
+                            }
+
+                        </span>
+                    </div>
+
+
+                    <div class="pm-detail-item">
+                        <span class="pm-detail-label">
+                            Verification
+                        </span>
+
+                        <span class="pm-detail-value">
+
+                            @if (Model.IsVerified)
+                            {
+                                <span class="pm-badge pm-badge-available">
+                                    Verified
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="pm-badge pm-badge-blocked">
+                                    Not Verified
+                                </span>
+                            }
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="pm-detail-item">
+
+                        <span class="pm-detail-label">
+                            Account Created
+                        </span>
+
+                        <span class="pm-detail-value">
+                            @Model.CreatedAt.ToString("dd MMM yyyy, hh:mm tt")
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="pm-form-actions">
+
+                    <a asp-action="Index"
+                       class="pm-btn pm-btn-secondary">
+                        ← Back
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

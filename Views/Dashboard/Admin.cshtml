@@ -1,0 +1,109 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Views/Shared/_AdminDashboardLayout.cshtml";
+}
+
+<div class="admin-page admin-dashboard-content">
+    <div class="admin-container">
+
+        <div class="admin-header">
+            <div class="admin-heading">
+                <h1>Dashboard</h1>
+                <p>
+                    Overview of bookings, parking slots, and revenue.
+                </p>
+            </div>
+        </div>
+
+        <form asp-controller="Dashboard"
+              asp-action="Admin"
+              method="get"
+              class="filter-bar">
+
+            <label>Filter:</label>
+
+            <select name="filterOption">
+                <option value="select">Select</option>
+                <option value="today" selected="@(ViewBag.FilterOption == "today")">Today</option>
+                <option value="last5" selected="@(ViewBag.FilterOption == "last5")">Last 5 Days</option>
+                <option value="month" selected="@(ViewBag.FilterOption == "month")">This Month</option>
+                <option value="total" selected="@(ViewBag.FilterOption == "total")">All Time</option>
+            </select>
+
+            <label>OR Custom Range:</label>
+
+            <input type="date"
+                   name="startDate"
+                   value="@ViewBag.StartDate" />
+
+            <input type="date"
+                   name="endDate"
+                   value="@ViewBag.EndDate" />
+
+            <button type="submit" class="btn">
+                Filter
+            </button>
+
+            <a asp-controller="Dashboard"
+               asp-action="Admin"
+               class="btn reset-btn">
+                Reset
+            </a>
+        </form>
+
+        <div class="dashboard-cards">
+
+            <div class="dashboard-card orange">
+                <p>Total Revenue (Completed)</p>
+                <h2>₹@ViewBag.Revenue</h2>
+            </div>
+
+            <div class="dashboard-card light-orange">
+                <p>Expected Revenue (Active)</p>
+                <h2>₹@ViewBag.ExpectedRevenue</h2>
+            </div>
+
+            <div class="dashboard-card red">
+                <p>Registered Users</p>
+                <h2>@ViewBag.TotalUsers</h2>
+            </div>
+
+            <div class="dashboard-card orange">
+                <p>Booked Slots</p>
+                <h2>@ViewBag.BookedSlots</h2>
+            </div>
+
+            <div class="dashboard-card light-orange">
+                <p>Available Slots</p>
+                <h2>@ViewBag.AvailableSlots</h2>
+            </div>
+
+            <div class="dashboard-card red">
+                <p>Total Slots</p>
+                <h2>@ViewBag.TotalSlots</h2>
+            </div>
+
+            <div class="dashboard-card orange">
+                <p>Active Bookings</p>
+                <h2>@ViewBag.ActiveBookings</h2>
+            </div>
+
+            <div class="dashboard-card light-orange">
+                <p>Total Bookings</p>
+                <h2>@ViewBag.TotalBookings</h2>
+            </div>
+
+            <div class="dashboard-card red">
+                <p>Total Payments</p>
+                <h2>@ViewBag.PaymentCount</h2>
+            </div>
+
+            <div class="dashboard-card orange">
+                <p>Average Rating</p>
+                <h2>@ViewBag.RatingStars</h2>
+                <p>@ViewBag.AverageRating out of 5</p>
+            </div>
+
+        </div>
+    </div>
+</div>

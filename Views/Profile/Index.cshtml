@@ -1,0 +1,64 @@
+@model ParkMate.ViewModels.ProfileViewModel
+
+@{
+    ViewData["Title"] = "My Profile";
+    Layout = "~/Views/Shared/_UserDashboardLayout.cshtml";
+}
+
+<link rel="stylesheet"
+      href="~/css/profile.css"
+      asp-append-version="true" />
+
+<div class="dashboard-page-content">
+
+    <h1>My Profile</h1>
+
+    <p>
+        View and update your personal information.
+    </p>
+
+    @if (TempData["ProfileSuccess"] != null)
+    {
+        <div class="profile-success">
+            @TempData["ProfileSuccess"]
+        </div>
+    }
+
+    <div class="profile-card">
+
+        <form asp-action="Index" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="profile-group">
+                <label asp-for="Name">Name</label>
+                <input asp-for="Name" class="profile-input" />
+                <span asp-validation-for="Name" class="profile-error"></span>
+            </div>
+
+            <div class="profile-group">
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" class="profile-input" readonly />
+                <small>Email cannot be changed.</small>
+            </div>
+
+            <div class="profile-group">
+                <label asp-for="Contact">Contact</label>
+                <input asp-for="Contact"
+                       class="profile-input"
+                       maxlength="10" />
+                <span asp-validation-for="Contact" class="profile-error"></span>
+            </div>
+
+            <button type="submit" class="profile-button">
+                Update Profile
+            </button>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

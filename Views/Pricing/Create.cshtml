@@ -1,0 +1,145 @@
+@model ParkMate.Models.Pricing
+
+@{
+    Layout = "~/Views/Shared/_AdminDashboardLayout.cshtml";
+    ViewData["Title"] = "Add Pricing";
+}
+
+<div class="admin-page">
+
+    <div class="admin-container">
+
+        <div class="admin-header">
+
+            <div class="admin-heading">
+
+                <h1>Add Parking Pricing</h1>
+
+                <p>
+                    Configure hourly and daily parking charges.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="pm-card pm-form-card">
+
+            <div class="pm-card-header">
+
+                <h2>
+                    Pricing Information
+                </h2>
+
+            </div>
+
+
+            <div class="pm-card-body">
+
+                <form asp-action="Create"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="pm-summary">
+                    </div>
+
+
+                    <!-- VEHICLE TYPE -->
+                    <div class="pm-form-group">
+
+                        <label asp-for="VType">
+                            Vehicle Type
+                        </label>
+
+                        <select asp-for="VType"
+                                class="pm-select">
+
+                            <option value="">
+                                Select Vehicle Type
+                            </option>
+
+                            <option value="2_wheeler">
+                                2 Wheeler
+                            </option>
+
+                            <option value="4_wheeler">
+                                4 Wheeler
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="VType"
+                              class="pm-validation">
+                        </span>
+
+                    </div>
+
+
+                    <!-- HOURLY PRICE -->
+                    <div class="pm-form-group">
+
+                        <label asp-for="PricePerHour">
+                            Price Per Hour
+                        </label>
+
+                        <input asp-for="PricePerHour"
+                               class="pm-input"
+                               type="number"
+                               min="0"
+                               placeholder="Example: 20" />
+
+                        <span asp-validation-for="PricePerHour"
+                              class="pm-validation">
+                        </span>
+
+                    </div>
+
+
+                    <!-- DAILY PRICE -->
+                    <div class="pm-form-group">
+
+                        <label asp-for="PricePerDay">
+                            Price Per Day
+                        </label>
+
+                        <input asp-for="PricePerDay"
+                               class="pm-input"
+                               type="number"
+                               min="0"
+                               placeholder="Example: 450" />
+
+                        <span asp-validation-for="PricePerDay"
+                              class="pm-validation">
+                        </span>
+
+                    </div>
+
+
+                    <div class="pm-form-actions">
+
+                        <button type="submit"
+                                class="pm-btn pm-btn-primary">
+                            Save Pricing
+                        </button>
+
+
+                        <a asp-action="Index"
+                           class="pm-btn pm-btn-secondary">
+                            Back to Pricing
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,143 @@
+@model IEnumerable<ParkMate.Models.Booking>
+
+@{
+    ViewData["Title"] = "My Bookings";
+    Layout = "~/Views/Shared/_UserDashboardLayout.cshtml";
+
+    var bookingList = Model.ToList();
+    var bookingIds = bookingList
+        .Select(b => b.BId)
+        .Distinct()
+        .OrderBy(id => id)
+        .ToList();
+}
+
+<div class="dashboard-page-content">
+
+    <div class="page-heading-row">
+        <div>
+            <h1>My Bookings</h1>
+            <p>View your parking booking history.</p>
+        </div>
+
+        <a asp-action="Create"
+           class="pm-btn pm-btn-primary">
+            Book Slot
+        </a>
+    </div>
+
+    @if (TempData["BookingSuccess"] != null)
+    {
+        <div class="pm-summary">
+            @TempData["BookingSuccess"]
+        </div>
+    }
+
+    @if (TempData["BookingError"] != null)
+    {
+        <div class="pm-summary">
+            @TempData["BookingError"]
+        </div>
+    }
+
+    <div class="pm-card">
+
+        <div class="pm-card-header">
+            <h2>Booking History</h2>
+        </div>
+
+        <div class="pm-card-body">
+
+            @if (!bookingList.Any())
+            {
+                <div class="pm-empty">
+                    <div class="pm-empty-icon">📅</div>
+                    <h3>No bookings yet</h3>
+                    <p>You have not created any parking bookings.</p>
+
+                    <div class="pm-form-actions" style="justify-content:center;">
+                        <a asp-action="Create"
+                           class="pm-btn pm-btn-primary">
+                            Book Your First Slot
+                        </a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="pm-table-wrapper">
+                    <table class="pm-table">
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Slot</th>
+                                <th>Vehicle Type</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var booking in bookingList)
+                            {
+                                int bookingDisplayId = bookingIds.IndexOf(booking.BId) + 1;
+
+                                <tr>
+                                    <td><strong>#B @bookingDisplayId</strong></td>
+                                    <td>
+                                        <span class="pm-slot-number">
+                                            @booking.Slot?.SlotNum
+                                        </span>
+                                    </td>
+                                    <td>@booking.VType</td>
+                                    <td>@booking.StartTime.ToString("dd MMM yyyy, hh:mm tt")</td>
+                                    <td>@booking.EndTime.ToString("dd MMM yyyy, hh:mm tt")</td>
+                                    <td>
+                                        @if (booking.BStatus == "Active")
+                                        {
+                                            <span class="pm-badge pm-badge-active">Active</span>
+                                        }
+                                        else if (booking.BStatus == "Completed")
+                                        {
+                                            <span class="pm-badge pm-badge-available">Completed</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="pm-badge pm-badge-cancelled">Cancelled</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="pm-actions">
+                                            <a asp-action="Details"
+                                               asp-route-id="@booking.BId"
+                                               class="pm-btn pm-btn-secondary">
+                                                View
+                                            </a>
+
+                                            @if (booking.BStatus == "Active" &&
+                                                 booking.StartTime > DateTime.Now)
+                                            {
+                                                <form asp-action="Cancel"
+                                                      asp-route-id="@booking.BId"
+                                                      method="post">
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="submit"
+                                                            class="pm-btn pm-btn-danger"
+                                                            onclick="return confirm('Are you sure you want to cancel this booking?');">
+                                                        Cancel
+                                                    </button>
+                                                </form>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

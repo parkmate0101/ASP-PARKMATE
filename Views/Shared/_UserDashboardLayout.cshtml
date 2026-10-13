@@ -1,0 +1,107 @@
+@{
+    var controller =
+        ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+
+    var action =
+        ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+
+    var userName =
+        Context.Session.GetString("UserName") ?? "User";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ParkMate</title>
+
+    <link rel="stylesheet"
+          href="~/css/user_dashboard.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/admin-pages.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/responsive.css"
+          asp-append-version="true" />
+</head>
+<body>
+
+<div class="dashboard-page">
+
+    <header class="navbar">
+        <div class="brand">
+            🚗 ParkMate
+        </div>
+
+        <div class="nav-user">
+            <span class="welcome-text">
+                Welcome, @userName
+            </span>
+
+            <span class="user-icon">
+                👤
+            </span>
+
+            <a asp-controller="Auth"
+               asp-action="Logout"
+               class="logout">
+                Logout
+            </a>
+        </div>
+    </header>
+
+    <div class="dashboard">
+
+        <aside class="menu">
+
+            <a asp-controller="Dashboard"
+               asp-action="User"
+               class="@(controller == "Dashboard" && action == "User" ? "active" : "")">
+                Dashboard
+            </a>
+
+            <a asp-controller="Bookings"
+               asp-action="Create">
+                Book Slot
+            </a>
+
+            <a asp-controller="Bookings"
+               asp-action="MyBookings"
+               class="@(controller == "Bookings" && (action == "MyBookings" || action == "Details") ? "active" : "")">
+                Bookings
+            </a>
+
+            <a asp-controller="Profile"
+               asp-action="Index"
+               class="@(controller == "Profile" ? "active" : "")">
+                Profile
+            </a>
+
+            <a asp-controller="Feedback"
+               asp-action="Index"
+               class="@(controller == "Feedback" ? "active" : "")">
+                Feedback
+            </a>
+
+            <a asp-controller="Payments"
+               asp-action="Index"
+               class="@(controller == "Payments" ? "active" : "")">
+                Payments
+            </a>
+
+        </aside>
+
+        <main class="main dashboard-content">
+            @RenderBody()
+        </main>
+
+    </div>
+</div>
+
+@await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

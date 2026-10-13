@@ -1,0 +1,27 @@
+# Visual Studio and .NET build output
+.vs/
+**/bin/
+**/obj/
+*.user
+*.suo
+*.cache
+
+# Local configuration and secrets (never commit credentials)
+appsettings.Development.json
+appsettings.Production.json
+appsettings.*.local.json
+.env
+.env.*
+*.publishsettings
+*.pfx
+
+# Runtime/test output
+*.log
+TestResults/
+.vscode/
+
+# Local database files and backups
+*.mdf
+*.ldf
+*.bak
+*.bacpac

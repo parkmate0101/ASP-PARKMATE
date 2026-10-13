@@ -1,0 +1,345 @@
+﻿@model ParkMate.ViewModels.BookingCreateViewModel
+
+@{
+    ViewData["Title"] = "Select Parking Duration";
+}
+
+<div class="admin-page">
+
+    <div class="admin-container">
+
+        <div class="admin-header">
+
+            <div class="admin-heading">
+
+                <h1>Select Parking Duration</h1>
+
+                <p>
+                    Choose your parking duration and vehicle details.
+                </p>
+
+            </div>
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="pm-btn pm-btn-dark">
+                Home
+            </a>
+
+        </div>
+
+
+        <div class="pm-card pm-form-card">
+
+            <div class="pm-card-header">
+                <h2>Booking Information</h2>
+            </div>
+
+
+            <div class="pm-card-body">
+
+                <form asp-action="Create"
+                      method="post"
+                      id="bookingForm">
+
+                    @Html.AntiForgeryToken()
+
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="pm-summary">
+                    </div>
+
+
+                    <!-- BOOKING TYPE -->
+
+                    <div class="pm-form-group">
+
+                        <label>
+                            Booking Type
+                        </label>
+
+                        <div class="pm-actions">
+
+                            <label>
+                                <input type="radio"
+                                       asp-for="BookingType"
+                                       value="hourly" />
+                                Hourly Booking
+                            </label>
+
+                            <label>
+                                <input type="radio"
+                                       asp-for="BookingType"
+                                       value="full-day" />
+                                Full-Day Booking
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- START DATE -->
+
+                    <div class="pm-form-group">
+
+                        <label asp-for="StartDate">
+                            Select Date
+                        </label>
+
+                        <input asp-for="StartDate"
+                               type="date"
+                               class="pm-input"
+                               id="startDate" />
+
+                        <span asp-validation-for="StartDate"
+                              class="pm-validation">
+                        </span>
+
+                    </div>
+
+
+                    <!-- END DATE -->
+
+                    <div class="pm-form-group"
+                         id="endDateGroup">
+
+                        <label asp-for="EndDate">
+                            End Date
+                        </label>
+
+                        <input asp-for="EndDate"
+                               type="date"
+                               class="pm-input"
+                               id="endDate" />
+
+                    </div>
+
+
+                    <!-- HOURLY TIME -->
+
+                    <div id="hourlyTimeSection">
+
+                        <div class="pm-details-grid">
+
+                            <div class="pm-form-group">
+
+                                <label asp-for="StartClock">
+                                    Start Time
+                                </label>
+
+                                <input asp-for="StartClock"
+                                       type="time"
+                                       class="pm-input" />
+
+                            </div>
+
+
+                            <div class="pm-form-group">
+
+                                <label asp-for="EndClock">
+                                    End Time
+                                </label>
+
+                                <input asp-for="EndClock"
+                                       type="time"
+                                       class="pm-input" />
+
+                            </div>
+
+                        </div>
+
+                        <p>
+                            Hourly parking is available between
+                            <strong>10:00 AM and 10:00 PM</strong>.
+                        </p>
+
+                    </div>
+
+
+                    <!-- VEHICLE TYPE -->
+
+                    <div class="pm-form-group">
+
+                        <label asp-for="VehicleType">
+                            Vehicle Type
+                        </label>
+
+                        <select asp-for="VehicleType"
+                                class="pm-select">
+
+                            <option value="">
+                                -- Select Vehicle Type --
+                            </option>
+
+                            <option value="2_wheeler">
+                                2 Wheeler
+                            </option>
+
+                            <option value="4_wheeler">
+                                4 Wheeler
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="VehicleType"
+                              class="pm-validation">
+                        </span>
+
+                    </div>
+
+
+                    <!-- VEHICLE NUMBER -->
+
+                    <div class="pm-form-group">
+
+                        <label asp-for="VehicleNumber">
+                            Vehicle Number
+                        </label>
+
+                        <input asp-for="VehicleNumber"
+                               class="pm-input"
+                               placeholder="GJ01AB1234"
+                               maxlength="20"
+                               style="text-transform:uppercase;" />
+
+                        <span asp-validation-for="VehicleNumber"
+                              class="pm-validation">
+                        </span>
+
+                    </div>
+
+
+                    <!-- BUTTON -->
+
+                    <div class="pm-form-actions">
+
+                        <button type="submit"
+                                class="pm-btn pm-btn-primary">
+                            Proceed to Slot Selection
+                        </button>
+
+                        <a asp-controller="Home"
+                           asp-action="Index"
+                           class="pm-btn pm-btn-secondary">
+                            Cancel
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial");
+    }
+
+
+    <script>
+
+        const bookingRadios =
+            document.querySelectorAll(
+                'input[name="BookingType"]');
+
+        const endDateGroup =
+            document.getElementById("endDateGroup");
+
+        const endDate =
+            document.getElementById("endDate");
+
+        const hourlySection =
+            document.getElementById(
+                "hourlyTimeSection");
+
+        const startDate =
+            document.getElementById("startDate");
+
+
+        function updateBookingTypeUI() {
+
+            const selected =
+                document.querySelector(
+                    'input[name="BookingType"]:checked'
+                )?.value;
+
+            if (selected === "hourly") {
+
+                endDateGroup.style.display = "none";
+
+                hourlySection.style.display = "block";
+
+                endDate.value = startDate.value;
+
+            }
+            else {
+
+                endDateGroup.style.display = "block";
+
+                hourlySection.style.display = "none";
+
+            }
+        }
+
+
+        bookingRadios.forEach(radio => {
+
+            radio.addEventListener(
+                "change",
+                updateBookingTypeUI);
+
+        });
+
+
+        startDate.addEventListener(
+            "change",
+            function () {
+
+                endDate.min =
+                    startDate.value;
+
+                if (endDate.value <
+                    startDate.value) {
+
+                    endDate.value =
+                        startDate.value;
+
+                }
+
+            });
+
+
+        startDate.min =
+            new Date().toISOString()
+                .split("T")[0];
+
+        endDate.min =
+            startDate.value;
+
+
+        updateBookingTypeUI();
+
+
+        document.querySelector(
+            "[name='VehicleNumber']"
+        ).addEventListener(
+            "input",
+            function () {
+
+                this.value =
+                    this.value.toUpperCase();
+
+            });
+
+    </script>
+}

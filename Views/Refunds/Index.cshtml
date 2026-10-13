@@ -1,0 +1,167 @@
+@model IEnumerable<ParkMate.Models.Refund>
+
+@{
+    Layout = "~/Views/Shared/_AdminDashboardLayout.cshtml";
+    ViewData["Title"] = "Refunds";
+
+    var refundList = Model?.ToList() ?? new List<ParkMate.Models.Refund>();
+    var refundIds = refundList.Select(r => r.RefundId).Distinct().OrderBy(id => id).ToList();
+    var bookingIds = refundList.Select(r => r.BId).Distinct().OrderBy(id => id).ToList();
+}
+
+<div class="admin-page">
+    <div class="admin-container">
+
+        <div class="admin-header">
+            <div class="admin-heading">
+                <h1>Refunds</h1>
+                <p>View and manage customer refund requests.</p>
+            </div>
+            <a asp-controller="Home" asp-action="Index" class="pm-btn pm-btn-dark">Home</a>
+        </div>
+
+        @if (TempData["RefundSuccess"] != null)
+        {
+            <div class="pm-alert pm-alert-success">@TempData["RefundSuccess"]</div>
+        }
+
+        @if (TempData["RefundError"] != null)
+        {
+            <div class="pm-alert pm-alert-error">@TempData["RefundError"]</div>
+        }
+
+        <div class="pm-card">
+            <div class="pm-card-header"><h2>Refund Management</h2></div>
+            <div class="pm-card-body">
+
+                @if (!refundList.Any())
+                {
+                    <div class="pm-empty">
+                        <h3>No Refunds Found</h3>
+                        <p>There are currently no refund requests.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="pm-table-wrapper">
+                        <table class="pm-table">
+                            <thead>
+                                <tr>
+                                    <th>Refund ID</th>
+                                    <th>Booking ID</th>
+                                    <th>Customer</th>
+                                    <th>Vehicle</th>
+                                    <th>Parking Slot</th>
+                                    <th>Booking Time</th>
+                                    <th>Paid Amount</th>
+                                    <th>Refund Amount</th>
+                                    <th>Refund Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var refund in refundList)
+                                {
+                                    int refundDisplayId = refundIds.IndexOf(refund.RefundId) + 1;
+                                    int bookingDisplayId = bookingIds.IndexOf(refund.BId) + 1;
+
+                                    <tr>
+                                        <td>#R @refundDisplayId</td>
+                                        <td>#B @bookingDisplayId</td>
+                                        <td>
+                                            @if (refund.User != null)
+                                            {
+                                                <strong>@refund.User.Name</strong>
+                                                <br />
+                                                <small>@refund.User.Email</small>
+                                            }
+                                            else
+                                            {
+                                                <span>N/A</span>
+                                            }
+                                        </td>
+                                        <td>@(refund.Booking?.Vehicle?.VNum ?? "N/A")</td>
+                                        <td>
+                                            @if (refund.Booking?.Slot != null)
+                                            {
+                                                <span class="pm-slot-number">@refund.Booking.Slot.SlotNum</span>
+                                            }
+                                            else
+                                            {
+                                                <span>N/A</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (refund.Booking != null)
+                                            {
+                                                @refund.Booking.StartTime.ToString("dd MMM yyyy")
+                                                <br />
+                                                <small>@refund.Booking.StartTime.ToString("hh:mm tt") - @refund.Booking.EndTime.ToString("hh:mm tt")</small>
+                                            }
+                                            else
+                                            {
+                                                <span>N/A</span>
+                                            }
+                                        </td>
+                                        <td>@(refund.Booking?.TotalAmount.ToString("0.00") ?? "0.00")</td>
+                                        <td><strong>₹@refund.Amount.ToString("0.00")</strong></td>
+                                        <td>@refund.CreatedAt.ToString("dd MMM yyyy, hh:mm tt")</td>
+                                        <td>
+                                            @if (refund.RefundStatus == "processed")
+                                            {
+                                                <span class="pm-badge pm-badge-paid">Processed</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="pm-badge pm-badge-pending">Pending</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (refund.RefundStatus == "pending")
+                                            {
+                                                <form asp-action="Process" method="post">
+                                                    @Html.AntiForgeryToken()
+                                                    <input type="hidden" name="id" value="@refund.RefundId" />
+                                                    <button type="submit"
+                                                            class="pm-btn pm-btn-primary"
+                                                            onclick="return confirm('Are you sure you want to mark this refund as processed?');">
+                                                        Mark Processed
+                                                    </button>
+                                                </form>
+                                            }
+                                            else if (refund.RefundReceipt != null)
+                                            {
+                                                <div style="display:flex;flex-direction:column;gap:8px;min-width:150px;">
+                                                    <span class="pm-badge pm-badge-paid">@refund.RefundReceipt.RecNo</span>
+                                                    <a asp-controller="Receipts"
+                                                       asp-action="DownloadRefund"
+                                                       asp-route-id="@refund.RefundId"
+                                                       class="pm-btn pm-btn-secondary">
+                                                        Download PDF
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <span>Processed</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+        <div class="pm-form-actions">
+            <a asp-controller="Dashboard" asp-action="Admin" class="pm-btn pm-btn-secondary">
+                ← Back to Admin Dashboard
+            </a>
+        </div>
+
+    </div>
+</div>

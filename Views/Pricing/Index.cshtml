@@ -1,0 +1,91 @@
+@model IEnumerable<ParkMate.Models.Pricing>
+
+@{
+    Layout = "~/Views/Shared/_AdminDashboardLayout.cshtml";
+    ViewData["Title"] = "Parking Pricing";
+    var pricingList = Model.ToList();
+    var pricingIds = pricingList.Select(p => p.PriceId).Distinct().OrderBy(id => id).ToList();
+    var twoWheeler = pricingList.FirstOrDefault(p => p.VType == "2_wheeler");
+    var fourWheeler = pricingList.FirstOrDefault(p => p.VType == "4_wheeler");
+}
+
+<div class="admin-page">
+    <div class="admin-container">
+
+        <div class="admin-header">
+            <div class="admin-heading">
+                <h1>Parking Pricing</h1>
+                <p>Manage hourly and daily parking prices for each vehicle type.</p>
+            </div>
+            <a asp-action="Create" class="pm-btn pm-btn-primary">+ Add Pricing</a>
+        </div>
+
+        <div class="pm-mini-grid">
+            <div class="pm-mini-card">
+                <span>Pricing Types</span>
+                <strong>@pricingList.Count</strong>
+            </div>
+            <div class="pm-mini-card">
+                <span>2 Wheeler Rate</span>
+                <strong>@(twoWheeler != null ? "₹" + twoWheeler.PricePerHour : "N/A")</strong>
+            </div>
+            <div class="pm-mini-card">
+                <span>4 Wheeler Rate</span>
+                <strong>@(fourWheeler != null ? "₹" + fourWheeler.PricePerHour : "N/A")</strong>
+            </div>
+        </div>
+
+        <div class="pm-card">
+            <div class="pm-card-header"><h2>Current Parking Rates</h2></div>
+            <div class="pm-card-body">
+                <div class="pm-table-wrapper">
+                    <table class="pm-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Vehicle Type</th>
+                                <th>Price / Hour</th>
+                                <th>Price / Day</th>
+                                <th>Last Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (!pricingList.Any())
+                            {
+                                <tr>
+                                    <td colspan="6" class="pm-empty">
+                                        <div class="pm-empty-icon">💰</div>
+                                        <h3>No pricing configured</h3>
+                                        <p>Add a pricing rule to get started.</p>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var pricing in pricingList)
+                                {
+                                    int priceDisplayId = pricingIds.IndexOf(pricing.PriceId) + 1;
+                                    <tr>
+                                        <td>#PR @priceDisplayId</td>
+                                        <td><span class="pm-slot-number">@(pricing.VType == "2_wheeler" ? "2 Wheeler" : "4 Wheeler")</span></td>
+                                        <td><strong>₹@pricing.PricePerHour</strong> <span style="color:#6b7280;">/ hour</span></td>
+                                        <td><strong>₹@pricing.PricePerDay</strong> <span style="color:#6b7280;">/ day</span></td>
+                                        <td>@pricing.UpdatedAt.ToString("dd MMM yyyy, hh:mm tt")</td>
+                                        <td>
+                                            <div class="pm-actions">
+                                                <a asp-action="Edit" asp-route-id="@pricing.PriceId" class="pm-btn pm-btn-warning">Edit</a>
+                                                <a asp-action="Delete" asp-route-id="@pricing.PriceId" class="pm-btn pm-btn-danger">Delete</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

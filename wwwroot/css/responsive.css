@@ -1,0 +1,639 @@
+
+/* =========================================================
+   PARKMATE FINAL RESPONSIVE LAYER
+   Loaded after the existing project CSS.
+   Purpose:
+   - laptop / desktop
+   - tablet
+   - mobile
+   - prevent page-level horizontal overflow
+   - keep wide data tables usable through internal scrolling
+   - keep action columns accessible
+========================================================= */
+
+html {
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+body {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Prevent flex/grid children from forcing a wider page. */
+.admin-shell-main,
+.admin-body,
+.admin-topbar,
+.dashboard,
+.main,
+.admin-page,
+.admin-container,
+.dashboard-page-content,
+.pm-card,
+.pm-card-body,
+.pm-table-wrapper,
+.success-page,
+.success-card,
+.parkmate-auth-container,
+.auth-left,
+.auth-right,
+.form-container,
+.confirmation-container,
+.pay-box {
+    min-width: 0;
+    max-width: 100%;
+}
+
+/* =========================
+   COMMON DATA TABLES
+========================= */
+
+.pm-table-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+
+.pm-table {
+    width: 100%;
+    min-width: 760px;
+}
+
+/* Keep the right-most action column usable on long tables. */
+.pm-table th:last-child,
+.pm-table td:last-child {
+    position: sticky;
+    right: 0;
+    z-index: 3;
+    white-space: nowrap;
+    background: #ffffff;
+    box-shadow: -6px 0 14px rgba(31, 41, 55, 0.06);
+}
+
+.pm-table th:last-child {
+    background: #f7f8fc;
+}
+
+.pm-table tbody tr:hover td:last-child {
+    background: #fafaff;
+}
+
+/* Long values should not stretch cards. */
+.pm-table td {
+    overflow-wrap: anywhere;
+}
+
+/* =========================
+   ADMIN SHELL
+========================= */
+
+.admin-topbar {
+    flex-wrap: wrap;
+}
+
+.admin-user-area {
+    min-width: 0;
+}
+
+.admin-user-label {
+    overflow-wrap: anywhere;
+}
+
+.admin-shell-main {
+    overflow-x: hidden;
+}
+
+/* =========================
+   USER SHELL
+========================= */
+
+.navbar {
+    flex-wrap: wrap;
+}
+
+.nav-user {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.welcome-text {
+    overflow-wrap: anywhere;
+    text-align: right;
+}
+
+/* =========================
+   PAGE HEADERS
+========================= */
+
+.admin-header,
+.page-heading-row {
+    flex-wrap: wrap;
+}
+
+.admin-heading,
+.page-heading-row > div {
+    min-width: 0;
+}
+
+.admin-heading h1,
+.page-heading-row h1 {
+    overflow-wrap: anywhere;
+}
+
+/* =========================
+   FORM ELEMENTS
+========================= */
+
+input,
+select,
+textarea,
+button {
+    max-width: 100%;
+}
+
+.pm-input,
+.pm-select {
+    min-width: 0;
+}
+
+.pm-form-actions,
+.pm-actions {
+    min-width: 0;
+}
+
+/* =========================
+   DETAILS / CARDS
+========================= */
+
+.pm-details-grid {
+    min-width: 0;
+}
+
+.pm-detail-value {
+    overflow-wrap: anywhere;
+}
+
+/* =========================
+   PARKING SLOT GRID
+========================= */
+
+.pm-slot-grid {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* =========================
+   AUTH PAGES
+========================= */
+
+.auth-input {
+    min-width: 0;
+}
+
+.auth-right,
+.auth-left {
+    min-width: 0;
+}
+
+/* =========================
+   PAYMENT SUCCESS
+========================= */
+
+.success-card {
+    overflow-wrap: anywhere;
+}
+
+.success-row strong {
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1024px) {
+
+    .admin-topbar {
+        padding: 12px 20px;
+    }
+
+    .admin-shell-main .admin-page {
+        padding: 30px 24px;
+    }
+
+    .main {
+        padding: 28px 24px;
+    }
+
+    .admin-container {
+        width: 100%;
+    }
+
+    .pm-table {
+        min-width: 720px;
+    }
+
+    .pm-card-body {
+        padding: 20px;
+    }
+
+    .pm-slot-grid {
+        grid-template-columns: repeat(4, minmax(80px, 1fr));
+    }
+}
+
+/* =========================================================
+   TABLET / LARGE PHONE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .admin-topbar {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .admin-user-area {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .admin-shell-main .admin-page {
+        padding: 24px 16px;
+    }
+
+    .main {
+        padding: 22px 16px;
+    }
+
+    .admin-header,
+    .page-heading-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .admin-header .pm-btn,
+    .page-heading-row .pm-btn {
+        width: 100%;
+    }
+
+    .admin-heading h1,
+    .main h1 {
+        font-size: 28px;
+    }
+
+    .pm-mini-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pm-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pm-form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .pm-form-actions .pm-btn {
+        width: 100%;
+    }
+
+    .pm-search {
+        flex-direction: column;
+    }
+
+    .pm-search .pm-input,
+    .pm-search .pm-select,
+    .pm-search .pm-btn {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .pm-actions {
+        flex-wrap: wrap;
+    }
+
+    .pm-slot-grid {
+        grid-template-columns: repeat(3, minmax(75px, 1fr));
+        gap: 10px;
+    }
+
+    .pm-parking-slot {
+        min-height: 88px;
+        padding: 10px 7px;
+    }
+
+    .pm-parking-slot-number {
+        font-size: 18px;
+    }
+
+    .pm-parking-slot-status {
+        font-size: 12px;
+    }
+
+    .pm-parking-slot-time {
+        font-size: 10px;
+    }
+
+    .pm-table {
+        min-width: 680px;
+    }
+
+    .pm-table th,
+    .pm-table td {
+        padding: 12px 10px;
+        font-size: 13px;
+    }
+
+    .pm-table th:last-child,
+    .pm-table td:last-child {
+        min-width: 145px;
+        width: 145px;
+    }
+
+    .navbar {
+        padding: 12px 16px;
+    }
+
+    .nav-user {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .welcome-text {
+        max-width: 60vw;
+    }
+
+    /* Auth pages */
+    .parkmate-auth-container {
+        flex-direction: column;
+    }
+
+    .auth-left {
+        width: 100%;
+        height: 32vh;
+    }
+
+    .auth-right {
+        width: 100%;
+        min-height: 68vh;
+        padding: 36px 24px;
+    }
+
+    .auth-right form,
+    .auth-helper-text,
+    .parkmate-logo {
+        width: 92%;
+    }
+
+    /* Standalone content pages */
+    .confirmation-container,
+    .form-container,
+    .pay-box {
+        width: calc(100% - 24px);
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .success-page {
+        padding: 24px 14px;
+    }
+
+    .success-card {
+        padding: 28px 20px;
+    }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .admin-shell-main .admin-page,
+    .admin-page {
+        padding: 20px 12px;
+    }
+
+    .main {
+        padding: 18px 12px;
+    }
+
+    .admin-heading h1,
+    .main h1 {
+        font-size: 25px;
+    }
+
+    .admin-heading p,
+    .dashboard-content > p,
+    .main > p {
+        font-size: 14px;
+    }
+
+    .pm-card {
+        border-radius: 14px;
+    }
+
+    .pm-card-header {
+        padding: 16px;
+    }
+
+    .pm-card-body {
+        padding: 14px;
+    }
+
+    .pm-table {
+        min-width: 640px;
+    }
+
+    .pm-table th:last-child,
+    .pm-table td:last-child {
+        min-width: 135px;
+        width: 135px;
+    }
+
+    .pm-table-wrapper {
+        margin-bottom: 4px;
+    }
+
+    .pm-slot-grid {
+        grid-template-columns: repeat(3, minmax(72px, 1fr));
+    }
+
+    .success-card h1 {
+        font-size: 27px;
+    }
+
+    .success-row {
+        padding: 12px 14px;
+    }
+
+    .success-primary-btn,
+    .success-secondary-btn {
+        width: 100%;
+    }
+
+    .auth-title {
+        font-size: 29px;
+    }
+
+    .auth-right {
+        padding: 28px 18px;
+    }
+
+    .auth-right form,
+    .auth-helper-text,
+    .parkmate-logo {
+        width: 96%;
+    }
+
+    .otp-card {
+        padding: 24px 18px;
+    }
+
+    .otp-input {
+        font-size: 19px;
+        letter-spacing: 5px;
+    }
+}
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .admin-brand,
+    .brand {
+        font-size: 20px;
+    }
+
+    .admin-user-label {
+        font-size: 14px;
+    }
+
+    .admin-logout,
+    .logout {
+        padding: 7px 10px;
+        font-size: 13px;
+    }
+
+    .admin-shell-main .admin-page,
+    .admin-page {
+        padding: 16px 9px;
+    }
+
+    .main {
+        padding: 15px 10px;
+    }
+
+    .admin-heading h1,
+    .main h1 {
+        font-size: 23px;
+    }
+
+    .pm-card-header {
+        padding: 14px;
+    }
+
+    .pm-card-header h2 {
+        font-size: 17px;
+    }
+
+    .pm-card-body {
+        padding: 12px;
+    }
+
+    .pm-table {
+        min-width: 620px;
+    }
+
+    .pm-table th,
+    .pm-table td {
+        padding: 9px 8px;
+        font-size: 12px;
+    }
+
+    .pm-slot-grid {
+        grid-template-columns: repeat(2, minmax(70px, 1fr));
+    }
+
+    .navbar {
+        padding: 10px 12px;
+    }
+
+    .nav-user {
+        gap: 7px;
+    }
+
+    .welcome-text {
+        display: none;
+    }
+
+    .menu {
+        padding: 8px;
+    }
+
+    .menu a {
+        width: 100%;
+        min-width: 0;
+        margin-right: 0;
+    }
+
+    .admin-shell-nav a {
+        flex-basis: 100%;
+    }
+
+    .success-card {
+        padding: 22px 14px;
+        border-radius: 14px;
+    }
+
+    .success-card h1 {
+        font-size: 24px;
+    }
+
+    .auth-left {
+        display: none;
+    }
+
+    .auth-right {
+        min-height: 100vh;
+        padding: 30px 14px;
+    }
+
+    .auth-title {
+        font-size: 27px;
+    }
+
+    .confirmation-container,
+    .form-container,
+    .pay-box {
+        width: calc(100% - 16px);
+        padding: 20px 16px;
+    }
+}
+
+/* =========================================================
+   ACCESSIBILITY / MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

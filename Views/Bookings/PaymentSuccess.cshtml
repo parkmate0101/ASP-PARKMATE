@@ -1,0 +1,102 @@
+@model ParkMate.Models.Booking
+
+@{
+    ViewData["Title"] = "Payment Successful";
+    int bookingDisplayId = ViewBag.BookingDisplayId ?? Model.BId;
+    var payment = Model.Payments.FirstOrDefault();
+    var receipt = payment?.Receipts.FirstOrDefault();
+    string? receiptToken = ViewBag.ReceiptDownloadToken as string;
+}
+
+<link rel="stylesheet"
+      href="~/css/payment_success.css"
+      asp-append-version="true" />
+
+<div class="success-page">
+
+    <div class="success-card">
+
+        <div class="checkmark">✓</div>
+
+        <h1>Payment Successful</h1>
+
+        <p class="success-message">
+            Your parking booking has been successfully created.
+        </p>
+
+        <div class="success-details">
+
+            <div class="success-row">
+                <span>Booking ID</span>
+                <strong>#B @bookingDisplayId</strong>
+            </div>
+
+            <div class="success-row">
+                <span>Parking Slot</span>
+                <strong>@Model.Slot?.SlotNum</strong>
+            </div>
+
+            <div class="success-row">
+                <span>Vehicle</span>
+                <strong>@Model.Vehicle?.VNum</strong>
+            </div>
+
+            <div class="success-row">
+                <span>Vehicle Type</span>
+                <strong>@Model.VType</strong>
+            </div>
+
+            <div class="success-row">
+                <span>Start</span>
+                <strong>@Model.StartTime.ToString("dd MMM yyyy, hh:mm tt")</strong>
+            </div>
+
+            <div class="success-row">
+                <span>End</span>
+                <strong>@Model.EndTime.ToString("dd MMM yyyy, hh:mm tt")</strong>
+            </div>
+
+            <div class="success-row">
+                <span>Total Amount</span>
+                <strong>₹@Model.TotalAmount.ToString("0.00")</strong>
+            </div>
+
+            @if (receipt != null)
+            {
+                <div class="success-row">
+                    <span>Receipt</span>
+                    <strong>@receipt.RecNo</strong>
+                </div>
+            }
+
+        </div>
+
+        <div class="success-actions">
+
+            @if (payment != null && receipt != null && !string.IsNullOrWhiteSpace(receiptToken))
+            {
+                <a asp-controller="Receipts"
+                   asp-action="DownloadPayment"
+                   asp-route-id="@payment.PId"
+                   asp-route-token="@receiptToken"
+                   class="success-primary-btn">
+                    Download Receipt PDF
+                </a>
+            }
+
+            <a asp-action="MyBookings"
+               class="success-secondary-btn">
+                My Bookings
+            </a>
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="success-secondary-btn">
+                Home
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

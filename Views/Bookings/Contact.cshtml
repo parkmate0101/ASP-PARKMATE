@@ -1,0 +1,112 @@
+﻿@model ParkMate.ViewModels.BookingContactViewModel
+
+@{
+    ViewData["Title"] = "Contact Details";
+}
+
+<div class="admin-page">
+
+    <div class="admin-container">
+
+        <div class="admin-header">
+
+            <div class="admin-heading">
+
+                <h1>Contact Details</h1>
+
+                <p>
+                    Enter your contact information before confirmation.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="pm-card pm-form-card">
+
+            <div class="pm-card-header">
+                <h2>Contact Information</h2>
+            </div>
+
+
+            <div class="pm-card-body">
+
+                <form asp-action="Contact"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="pm-summary">
+                    </div>
+
+
+                    <div class="pm-form-group">
+
+                        <label asp-for="Email">
+                            Email
+                        </label>
+
+                        <input asp-for="Email"
+                               class="pm-input"
+                               type="email" />
+
+                        <span asp-validation-for="Email"
+                              class="pm-validation">
+                        </span>
+
+                    </div>
+
+
+                    <div class="pm-form-group">
+
+                        <label asp-for="Mobile">
+                            Mobile
+                        </label>
+
+                        <input asp-for="Mobile"
+                               class="pm-input"
+                               maxlength="10" />
+
+                        <span asp-validation-for="Mobile"
+                              class="pm-validation">
+                        </span>
+
+                    </div>
+
+
+                    <div class="pm-form-actions">
+
+                        <button type="submit"
+                                class="pm-btn pm-btn-primary">
+                            Continue Booking
+                        </button>
+
+                        <a asp-action="SlotSelection"
+                           class="pm-btn pm-btn-secondary">
+                            Back
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial");
+    }
+
+}

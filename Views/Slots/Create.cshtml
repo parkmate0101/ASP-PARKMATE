@@ -1,0 +1,137 @@
+@model ParkMate.Models.Slot
+
+@{
+    Layout = "~/Views/Shared/_AdminDashboardLayout.cshtml";
+    ViewData["Title"] = "Add Parking Slot";
+}
+
+<div class="admin-page">
+
+    <div class="admin-container">
+
+        <div class="admin-header">
+
+            <div class="admin-heading">
+
+                <h1>Add Parking Slot</h1>
+
+                <p>
+                    Create a new parking space for ParkMate.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="pm-card pm-form-card">
+
+            <div class="pm-card-header">
+                <h2>Slot Information</h2>
+            </div>
+
+
+            <div class="pm-card-body">
+
+                <form asp-action="Create"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="pm-summary">
+                    </div>
+
+
+                    <div class="pm-form-group">
+
+                        <label asp-for="SlotNum">
+                            Slot Number
+                        </label>
+
+                        <input asp-for="SlotNum"
+                               class="pm-input"
+                               placeholder="Example: A1" />
+
+                        <span asp-validation-for="SlotNum"
+                              class="pm-validation">
+                        </span>
+
+                    </div>
+
+
+                    <div class="pm-form-group">
+
+                        <label asp-for="SlotType">
+                            Vehicle Type
+                        </label>
+
+                        <select asp-for="SlotType"
+                                class="pm-select">
+
+                            <option value="2_wheeler">
+                                2 Wheeler
+                            </option>
+
+                            <option value="4_wheeler">
+                                4 Wheeler
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="SlotType"
+                              class="pm-validation">
+                        </span>
+
+                    </div>
+
+
+                    <div class="pm-form-group">
+
+                        <label asp-for="SlotStatus">
+                            Status
+                        </label>
+
+                        <select asp-for="SlotStatus"
+                                class="pm-select">
+
+                            <option value="Available">
+                                Available
+                            </option>
+
+                            <option value="Blocked">
+                                Blocked
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="SlotStatus"
+                              class="pm-validation">
+                        </span>
+
+                    </div>
+
+
+                    <div class="pm-form-actions">
+
+                        <button type="submit"
+                                class="pm-btn pm-btn-primary">
+                            Save Slot
+                        </button>
+
+                        <a asp-action="Index"
+                           class="pm-btn pm-btn-secondary">
+                            Back to Slots
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

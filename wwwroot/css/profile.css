@@ -1,0 +1,89 @@
+.profile-card {
+    width: 100%;
+    max-width: 650px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.profile-group {
+    margin-bottom: 20px;
+}
+
+.profile-group label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.profile-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.profile-input:focus {
+    outline: none;
+    border-color: #5149F6;
+    box-shadow: 0 0 0 3px rgba(81,73,246,0.12);
+}
+
+.profile-input[readonly] {
+    background: #f3f4f6;
+    cursor: not-allowed;
+}
+
+.profile-group small {
+    display: block;
+    margin-top: 6px;
+    color: #6b7280;
+}
+
+.profile-error {
+    display: block;
+    margin-top: 5px;
+    color: #dc2626;
+    font-size: 13px;
+}
+
+.profile-success {
+    max-width: 650px;
+    margin-bottom: 20px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    background: #e7f8ef;
+    color: #16794c;
+}
+
+.profile-button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #5149F6;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.profile-button:hover {
+    background: #4038dc;
+}
+
+@media (max-width: 700px) {
+    .profile-card {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-card {
+        padding: 16px;
+    }
+}

@@ -1,0 +1,93 @@
+@model ParkMate.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "ParkMate Sign Up";
+}
+
+<link rel="stylesheet" href="~/css/signup.css" asp-append-version="true" />
+
+<div class="parkmate-auth-container">
+
+    <div class="auth-left">
+        <img src="~/images/loginimage.png"
+             alt="ParkMate Parking" />
+    </div>
+
+    <div class="auth-right">
+
+        <div class="parkmate-logo">
+            Park<span>Mate</span>
+        </div>
+
+        <h1 class="auth-title">
+            SIGN UP
+        </h1>
+
+        <p class="auth-helper-text">
+            Enter your details. We'll send a 6-digit OTP to your email.
+        </p>
+
+        <form asp-controller="Auth"
+              asp-action="Register"
+              method="post"
+              onsubmit="return validateSignup();">
+
+            @Html.AntiForgeryToken()
+
+            <input asp-for="ReturnUrl" type="hidden" />
+
+            <input asp-for="Name"
+                   class="auth-input"
+                   placeholder="FULL NAME"
+                   autocomplete="name" />
+
+            <span asp-validation-for="Name" class="auth-error"></span>
+
+            <input asp-for="Contact"
+                   class="auth-input"
+                   placeholder="PHONE"
+                   maxlength="10"
+                   autocomplete="tel" />
+
+            <span asp-validation-for="Contact" class="auth-error"></span>
+
+            <input asp-for="Email"
+                   class="auth-input"
+                   placeholder="EMAIL"
+                   autocomplete="email" />
+
+            <span asp-validation-for="Email" class="auth-error"></span>
+
+            <div class="server-error">
+                <span asp-validation-summary="ModelOnly"></span>
+            </div>
+
+            <button type="submit"
+                    class="auth-button signup-submit">
+                SEND OTP
+            </button>
+
+        </form>
+
+        <div class="auth-question">
+            Already have an account?
+        </div>
+
+        <a asp-controller="Auth"
+           asp-action="Login"
+           asp-route-returnUrl="@Model.ReturnUrl"
+           class="auth-button auth-link-button">
+            LOG-IN
+        </a>
+
+    </div>
+
+</div>
+
+<script src="~/js/signup.js" asp-append-version="true"></script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

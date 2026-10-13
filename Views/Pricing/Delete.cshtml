@@ -1,0 +1,100 @@
+@model ParkMate.Models.Pricing
+
+@{
+    Layout = "~/Views/Shared/_AdminDashboardLayout.cshtml";
+    ViewData["Title"] = "Delete Pricing";
+}
+
+<div class="admin-page">
+
+    <div class="admin-container">
+
+        <div class="pm-danger-card">
+
+            <div class="pm-danger-icon">
+                ⚠
+            </div>
+
+
+            <h1>
+                Delete Pricing?
+            </h1>
+
+
+            <p>
+                You are about to permanently delete this pricing record.
+            </p>
+
+
+            <div class="pm-danger-details">
+
+                <p>
+
+                    <strong>
+                        Vehicle Type:
+                    </strong>
+
+                    @(Model.VType == "2_wheeler"
+                        ? "2 Wheeler"
+                        : "4 Wheeler")
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Price Per Hour:
+                    </strong>
+
+                    ₹@Model.PricePerHour
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Price Per Day:
+                    </strong>
+
+                    ₹@Model.PricePerDay
+
+                </p>
+
+            </div>
+
+
+            <form asp-action="Delete"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+
+                <input type="hidden"
+                       asp-for="PriceId" />
+
+
+                <div class="pm-form-actions"
+                     style="justify-content:center;">
+
+                    <button type="submit"
+                            class="pm-btn pm-btn-danger">
+                        Yes, Delete Pricing
+                    </button>
+
+
+                    <a asp-action="Index"
+                       class="pm-btn pm-btn-secondary">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

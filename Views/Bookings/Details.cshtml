@@ -1,0 +1,89 @@
+@model ParkMate.Models.Booking
+
+@{
+    ViewData["Title"] = "Booking Details";
+    Layout = "~/Views/Shared/_UserDashboardLayout.cshtml";
+    var payment = Model.Payments.FirstOrDefault();
+}
+
+<div class="dashboard-page-content">
+
+    <div class="page-heading-row">
+        <div>
+            <h1>Booking Details</h1>
+            <p>Complete information for this booking.</p>
+        </div>
+
+        <a asp-action="MyBookings"
+           class="pm-btn pm-btn-secondary">
+            ← Back to Bookings
+        </a>
+    </div>
+
+    <div class="pm-card">
+        <div class="pm-card-header">
+            <h2>
+                Booking #@Model.BId
+                @if (Model.BStatus == "Active")
+                {
+                    <span class="pm-badge pm-badge-active">Active</span>
+                }
+                else if (Model.BStatus == "Completed")
+                {
+                    <span class="pm-badge pm-badge-available">Completed</span>
+                }
+                else
+                {
+                    <span class="pm-badge pm-badge-cancelled">Cancelled</span>
+                }
+            </h2>
+        </div>
+
+        <div class="pm-card-body">
+            <div class="pm-details-grid">
+                <div class="pm-detail-item"><span class="pm-detail-label">User</span><span class="pm-detail-value">@(Model.User?.Name ?? "N/A")</span></div>
+                <div class="pm-detail-item"><span class="pm-detail-label">Email</span><span class="pm-detail-value">@(Model.User?.Email ?? "N/A")</span></div>
+                <div class="pm-detail-item"><span class="pm-detail-label">Vehicle Number</span><span class="pm-detail-value">@(Model.Vehicle?.VNum ?? "N/A")</span></div>
+                <div class="pm-detail-item"><span class="pm-detail-label">Vehicle Type</span><span class="pm-detail-value">@Model.VType</span></div>
+                <div class="pm-detail-item"><span class="pm-detail-label">Parking Slot</span><span class="pm-detail-value">@(Model.Slot?.SlotNum ?? "N/A")</span></div>
+                <div class="pm-detail-item"><span class="pm-detail-label">Start Time</span><span class="pm-detail-value">@Model.StartTime.ToString("dd MMM yyyy, hh:mm tt")</span></div>
+                <div class="pm-detail-item"><span class="pm-detail-label">End Time</span><span class="pm-detail-value">@Model.EndTime.ToString("dd MMM yyyy, hh:mm tt")</span></div>
+                <div class="pm-detail-item"><span class="pm-detail-label">Total Amount</span><span class="pm-detail-value">₹@Model.TotalAmount.ToString("0.00")</span></div>
+                <div class="pm-detail-item"><span class="pm-detail-label">Payment Status</span><span class="pm-detail-value">@Model.PaymentStatus</span></div>
+                <div class="pm-detail-item"><span class="pm-detail-label">Booking Date</span><span class="pm-detail-value">@Model.BookingDate.ToString("dd MMM yyyy, hh:mm tt")</span></div>
+            </div>
+
+            @if (payment != null && payment.Receipts.Any())
+            {
+                <div class="pm-summary" style="margin-top:25px;">
+                    <strong>Receipt:</strong>
+                    @payment.Receipts.First().RecNo
+                    <div class="pm-form-actions" style="margin-top:15px;">
+                        <a asp-controller="Receipts"
+                           asp-action="DownloadPayment"
+                           asp-route-id="@payment.PId"
+                           class="pm-btn pm-btn-primary">
+                            Download Receipt PDF
+                        </a>
+                    </div>
+                </div>
+            }
+
+            @if (Model.BStatus == "Cancelled")
+            {
+                <div class="pm-summary" style="margin-top:25px;">
+                    <strong>Cancellation Information</strong>
+                    <br />
+                    <strong>Cancelled At:</strong>
+                    @(Model.CancelledAt.HasValue ? Model.CancelledAt.Value.ToString("dd MMM yyyy, hh:mm tt") : "Not available")
+                    <br />
+                    <strong>Reason:</strong>
+                    @(Model.CancelReason ?? "Not specified")
+                    <br />
+                    <strong>Refund Amount:</strong>
+                    ₹@Model.RefundAmount?.ToString("0.00")
+                </div>
+            }
+        </div>
+    </div>
+</div>

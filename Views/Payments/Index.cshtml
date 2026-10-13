@@ -1,0 +1,148 @@
+@model IEnumerable<ParkMate.ViewModels.PaymentHistoryViewModel>
+
+@{
+    ViewData["Title"] = "My Payments";
+    Layout = "~/Views/Shared/_UserDashboardLayout.cshtml";
+
+    var paymentList = Model.ToList();
+    var paymentIds = paymentList
+        .Select(p => p.PaymentId)
+        .Distinct()
+        .OrderBy(id => id)
+        .ToList();
+    var bookingIds = paymentList
+        .Select(p => p.BookingId)
+        .Distinct()
+        .OrderBy(id => id)
+        .ToList();
+}
+
+<div class="dashboard-page-content">
+
+    <h1>My Payments</h1>
+
+    <p>
+        View your payment and refund history.
+    </p>
+
+    <div class="pm-card">
+
+        <div class="pm-card-header">
+            <h2>Payment History</h2>
+        </div>
+
+        <div class="pm-card-body">
+
+            @if (!paymentList.Any())
+            {
+                <div class="pm-empty">
+                    <h3>No Payment Records</h3>
+                    <p>You have no payment records yet.</p>
+                </div>
+            }
+            else
+            {
+                <div class="pm-table-wrapper">
+                    <table class="pm-table">
+                        <thead>
+                            <tr>
+                                <th>Payment</th>
+                                <th>Booking</th>
+                                <th>Amount</th>
+                                <th>Mode</th>
+                                <th>Status</th>
+                                <th>Receipt</th>
+                                <th>Date</th>
+                                <th>Refund</th>
+                                <th>Refund Status</th>
+                                <th>Refund Receipt</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var payment in paymentList)
+                            {
+                                int paymentDisplayId = paymentIds.IndexOf(payment.PaymentId) + 1;
+                                int bookingDisplayId = bookingIds.IndexOf(payment.BookingId) + 1;
+
+                                <tr>
+                                    <td>#P @paymentDisplayId</td>
+                                    <td>#B @bookingDisplayId</td>
+                                    <td>₹@payment.Amount.ToString("0.00")</td>
+                                    <td>@payment.Mode.ToUpperInvariant()</td>
+                                    <td>
+                                        <span class="pm-badge @(payment.Status.Equals("paid", StringComparison.OrdinalIgnoreCase) ? "pm-badge-paid" : "pm-badge-failed")">
+                                            @payment.Status
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrWhiteSpace(payment.ReceiptNumber))
+                                        {
+                                            <div style="display:flex;flex-direction:column;gap:8px;min-width:150px;">
+                                                <span>@payment.ReceiptNumber</span>
+                                                <a asp-controller="Receipts"
+                                                   asp-action="DownloadPayment"
+                                                   asp-route-id="@payment.PaymentId"
+                                                   class="pm-btn pm-btn-secondary">
+                                                    Download PDF
+                                                </a>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            @:—
+                                        }
+                                    </td>
+                                    <td>@payment.PayDate.ToString("dd MMM yyyy, hh:mm tt")</td>
+                                    <td>
+                                        @(payment.RefundAmount > 0
+                                            ? $"₹{payment.RefundAmount:0.00}"
+                                            : "—")
+                                    </td>
+                                    <td>
+                                        @if (string.IsNullOrWhiteSpace(payment.RefundStatus))
+                                        {
+                                            @:—
+                                        }
+                                        else if (payment.RefundStatus.Equals("processed", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            <span class="pm-badge pm-badge-paid">
+                                                @payment.RefundStatus
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="pm-badge pm-badge-active">
+                                                @payment.RefundStatus
+                                            </span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (payment.RefundId.HasValue &&
+                                             !string.IsNullOrWhiteSpace(payment.RefundReceiptNumber))
+                                        {
+                                            <div style="display:flex;flex-direction:column;gap:8px;min-width:150px;">
+                                                <span>@payment.RefundReceiptNumber</span>
+                                                <a asp-controller="Receipts"
+                                                   asp-action="DownloadRefund"
+                                                   asp-route-id="@payment.RefundId.Value"
+                                                   class="pm-btn pm-btn-secondary">
+                                                    Download PDF
+                                                </a>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            @:—
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

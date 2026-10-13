@@ -1,0 +1,231 @@
+﻿@model ParkMate.ViewModels.BookingSlotSelectionViewModel
+
+@{
+    ViewData["Title"] = "Select Parking Slot";
+}
+
+<div class="admin-page">
+
+    <div class="admin-container">
+
+        <div class="admin-header">
+
+            <div class="admin-heading">
+
+                <h1>
+                    Select Parking Slot
+                </h1>
+
+                <p>
+                    @Model.Draft.StartTime.ToString(
+                        "dd MMM yyyy, hh:mm tt")
+                    →
+                    @Model.Draft.EndTime.ToString(
+                        "dd MMM yyyy, hh:mm tt")
+                </p>
+
+            </div>
+
+            <a asp-action="Create"
+               class="pm-btn pm-btn-secondary">
+                ← Change Booking
+            </a>
+
+        </div>
+
+
+        @if (TempData["BookingError"] != null)
+        {
+            <div class="pm-summary">
+
+                @TempData["BookingError"]
+
+            </div>
+        }
+
+
+        <div class="pm-card">
+
+            <div class="pm-card-header">
+
+                <h2>
+
+                    @if (Model.Draft.VehicleType ==
+                         "2_wheeler")
+                    {
+                        <span>
+                            2 Wheeler Parking Slots
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            4 Wheeler Parking Slots
+                        </span>
+                    }
+
+                </h2>
+
+            </div>
+
+
+            <div class="pm-card-body">
+
+                @if (!Model.Slots.Any(s => !s.IsBooked))
+                {
+                    <div class="pm-empty">
+
+                        <div class="pm-empty-icon">
+                            🅿️
+                        </div>
+
+                        <h3>
+                            No slot available
+                        </h3>
+
+                        <p>
+                            All matching slots are currently
+                            booked or blocked for this time.
+                        </p>
+
+                        <a asp-action="Create"
+                           class="pm-btn pm-btn-secondary">
+                            Change Time
+                        </a>
+
+                    </div>
+                }
+                else
+                {
+                    <form asp-action="SlotSelection"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+
+                        <!-- SLOT GRID -->
+
+                        <div class="pm-slot-grid">
+
+                            @foreach (var slot in Model.Slots)
+                            {
+                                if (slot.IsBooked)
+                                {
+                                    <button type="button"
+                                            class="pm-parking-slot pm-parking-slot-booked"
+                                            disabled>
+
+                                        <span class="pm-parking-slot-number">
+                                            @slot.SlotNumber
+                                        </span>
+
+                                        <span class="pm-parking-slot-status">
+                                            Booked
+                                        </span>
+
+                                        @if (slot.NextAvailable.HasValue)
+                                        {
+                                            <span class="pm-parking-slot-time">
+                                                Free:
+                                                @slot.NextAvailable.Value.ToString(
+                                                    "hh:mm tt")
+                                            </span>
+                                        }
+
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="submit"
+                                            name="selectedSlotId"
+                                            value="@slot.SlotId"
+                                            class="pm-parking-slot pm-parking-slot-available">
+
+                                        <span class="pm-parking-slot-number">
+                                            @slot.SlotNumber
+                                        </span>
+
+                                        <span class="pm-parking-slot-status">
+                                            Available
+                                        </span>
+
+                                    </button>
+                                }
+                            }
+
+                        </div>
+
+
+                        <!-- LEGEND -->
+
+                        <div class="pm-slot-legend">
+
+                            <div class="pm-slot-legend-item">
+
+                                <span class="pm-slot-legend-box pm-slot-legend-available">
+                                </span>
+
+                                Available
+
+                            </div>
+
+
+                            <div class="pm-slot-legend-item">
+
+                                <span class="pm-slot-legend-box pm-slot-legend-booked">
+                                </span>
+
+                                Booked
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- BOOKING SUMMARY -->
+
+                        <div class="pm-summary">
+
+                            <strong>
+                                Booking:
+                            </strong>
+
+                            @Model.Draft.BookingType
+
+                            <br />
+
+                            <strong>
+                                Vehicle:
+                            </strong>
+
+                            @Model.Draft.VehicleNumber
+
+                            <br />
+
+                            <strong>
+                                Vehicle Type:
+                            </strong>
+
+                            @Model.Draft.VehicleType
+
+                            <br />
+
+                            <strong>
+                                Amount:
+                            </strong>
+
+                            ₹@Model.Draft.TotalAmount.ToString(
+                                "0.00")
+
+                        </div>
+
+                    </form>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

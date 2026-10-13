@@ -1,0 +1,273 @@
+@model IEnumerable<ParkMate.Models.Feedback>
+
+@{
+    ViewData["Title"] = "Manage Feedback";
+    Layout = "~/Views/Shared/_AdminDashboardLayout.cshtml";
+}
+
+<div class="admin-page">
+
+    <div class="admin-container">
+
+        <!-- ================================
+             HEADER
+        ================================= -->
+        <div class="admin-header">
+
+            <div class="admin-heading">
+
+                <h1>
+                    Manage Feedback
+                </h1>
+
+                <p>
+                    View customer feedback and ratings.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================
+             SUCCESS MESSAGE
+        ================================= -->
+        @if (TempData["FeedbackSuccess"] != null)
+        {
+            <div class="pm-alert pm-alert-success">
+
+                @TempData["FeedbackSuccess"]
+
+            </div>
+        }
+
+
+        <!-- ================================
+             ERROR MESSAGE
+        ================================= -->
+        @if (TempData["FeedbackError"] != null)
+        {
+            <div class="pm-alert pm-alert-error">
+
+                @TempData["FeedbackError"]
+
+            </div>
+        }
+
+
+        <!-- ================================
+             FEEDBACK CARD
+        ================================= -->
+        <div class="pm-card">
+
+            <div class="pm-card-header">
+
+                <h2>
+                    Customer Feedback
+                </h2>
+
+            </div>
+
+
+            <div class="pm-card-body">
+
+                <!-- ================================
+                     NO FEEDBACK
+                ================================= -->
+                @if (Model == null || !Model.Any())
+                {
+                    <div class="pm-empty">
+
+                        <div class="pm-empty-icon">
+                            💬
+                        </div>
+
+                        <h3>
+                            No feedback found
+                        </h3>
+
+                        <p>
+                            Customer feedback will appear here
+                            after submission.
+                        </p>
+
+                    </div>
+                }
+                else
+                {
+                    <!-- ================================
+                         TABLE
+                    ================================= -->
+                    <div class="pm-table-wrapper">
+
+                        <table class="pm-table">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        ID
+                                    </th>
+
+                                    <th>
+                                        Booking
+                                    </th>
+
+                                    <th>
+                                        User
+                                    </th>
+
+                                    <th>
+                                        Rating
+                                    </th>
+
+                                    <th>
+                                        Comment
+                                    </th>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                    <th>
+                                        Action
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                @foreach (var feedback in Model)
+                                {
+                                    var fullStars =
+                                        Math.Min(5, (int)feedback.Rating);
+
+                                    var emptyStars =
+                                        5 - fullStars;
+
+                                    var ratingStars =
+                                        new string('⭐', fullStars)
+                                        +
+                                        new string('☆', emptyStars);
+
+                                    <tr>
+
+                                        <!-- ================================
+                                             FEEDBACK ID
+                                        ================================= -->
+                                        <td>
+                                            #f @feedback.FId
+                                        </td>
+
+
+                                        <!-- ================================
+                                             BOOKING ID
+                                        ================================= -->
+                                        <td>
+                                            #B @feedback.BId
+                                        </td>
+
+
+                                        <!-- ================================
+                                             USER
+                                        ================================= -->
+                                        <td>
+
+                                            <strong>
+                                                @(feedback.Booking?.User?.Name
+                                                    ?? "N/A")
+                                            </strong>
+
+                                            <br />
+
+                                            <small>
+                                                @(feedback.Booking?.User?.Email
+                                                    ?? "")
+                                            </small>
+
+                                        </td>
+
+
+                                        <!-- ================================
+                                             RATING
+                                        ================================= -->
+                                        <td>
+
+                                            <span aria-label="Rating">
+                                                @ratingStars
+                                            </span>
+
+                                        </td>
+
+
+                                        <!-- ================================
+                                             COMMENT
+                                        ================================= -->
+                                        <td>
+
+                                            @(string.IsNullOrWhiteSpace(
+                                                feedback.Comment)
+                                                ? "—"
+                                                : feedback.Comment)
+
+                                        </td>
+
+
+                                        <!-- ================================
+                                             DATE
+                                        ================================= -->
+                                        <td>
+
+                                            @feedback.CreatedAt.ToString(
+                                                "dd MMM yyyy, hh:mm tt")
+
+                                        </td>
+
+
+                                        <!-- ================================
+                                             ACTION
+                                        ================================= -->
+                                        <td>
+
+                                            <form asp-action="Delete"
+                                                  method="post">
+
+                                                @Html.AntiForgeryToken()
+
+                                                <input type="hidden"
+                                                       name="id"
+                                                       value="@feedback.FId" />
+
+                                                <button type="submit"
+                                                        class="pm-btn pm-btn-danger"
+                                                        onclick="return confirm('Delete this feedback?');">
+
+                                                    Delete
+
+                                                </button>
+
+                                            </form>
+
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
